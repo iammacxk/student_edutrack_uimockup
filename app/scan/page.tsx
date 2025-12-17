@@ -10,47 +10,76 @@ import {
   QrCode, 
   ScanLine, 
   Zap, 
-  ShieldCheck 
+  ShieldCheck,
+
 } from "lucide-react";
 
 export default function ScanPage() {
   const [mode, setMode] = useState<'scan' | 'my-qr'>('scan');
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+  
+  // Refs สำหรับจัดการ Video และ Stream
   const videoRef = useRef<HTMLVideoElement>(null);
+  const streamRef = useRef<MediaStream | null>(null); 
 
   // --- State สำหรับ QR Code ---
   const [timeLeft, setTimeLeft] = useState(10);
   const [qrData, setQrData] = useState<string>(""); 
 
-  // --- Logic 1: กล้อง (Camera) ---
-  useEffect(() => {
-    let stream: MediaStream | null = null;
-    if (mode === 'scan') {
-      const startCamera = async () => {
-        try {
-          stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
-          if (videoRef.current) {
-            videoRef.current.srcObject = stream;
-            setHasPermission(true);
-          }
-        } catch (err) {
-          console.error("Error:", err);
-          setHasPermission(false);
-        }
-      };
-      startCamera();
+  // --- ฟังก์ชันหยุดกล้อง (สำคัญ) ---
+  const stopCamera = () => {
+    if (streamRef.current) {
+      // สั่งหยุดทุก Track (ภาพ/เสียง) ทันที
+      streamRef.current.getTracks().forEach(track => track.stop());
+      streamRef.current = null;
     }
+    if (videoRef.current) {
+      videoRef.current.srcObject = null;
+    }
+  };
+
+  // --- Logic 1: จัดการกล้อง (Camera) ---
+  useEffect(() => {
+    // ฟังก์ชันเริ่มกล้อง
+    const startCamera = async () => {
+      try {
+        // หยุดกล้องเก่าก่อนเริ่มใหม่เสมอ (กันซ้ำ)
+        stopCamera();
+
+        const stream = await navigator.mediaDevices.getUserMedia({ 
+          video: { facingMode: "environment" } 
+        });
+        
+        // เก็บ Stream เข้า Ref
+        streamRef.current = stream;
+
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          setHasPermission(true);
+        }
+      } catch (err) {
+        console.error("Error accessing camera:", err);
+        setHasPermission(false);
+      }
+    };
+
+    if (mode === 'scan') {
+      startCamera();
+    } else {
+      // ถ้าไม่ใช่โหมด scan ให้ปิดกล้องทันที
+      stopCamera();
+    }
+
+    // Cleanup Function: ทำงานเมื่อเปลี่ยนหน้า หรือ Unmount
     return () => {
-      if (stream) stream.getTracks().forEach(track => track.stop());
+      stopCamera();
     };
   }, [mode]);
 
-  // --- Logic 2: ระบบสร้าง QR และ Timer (แก้ Error ตรงนี้) ---
+  // --- Logic 2: ระบบสร้าง QR และ Timer ---
   useEffect(() => {
-    // ถ้าไม่ได้อยู่โหมด My QR ให้จบการทำงาน
     if (mode !== 'my-qr') return;
 
-    // ฟังก์ชันช่วยสร้าง Text สำหรับ QR
     const createQRString = () => {
       return JSON.stringify({
         id: "66160xxx",
@@ -60,28 +89,23 @@ export default function ScanPage() {
       });
     };
 
-    // --- จุดที่แก้ไข: ใช้ setTimeout เพื่อหลีกเลี่ยง Sync Update ---
     const initialSetup = setTimeout(() => {
        setQrData(createQRString());
        setTimeLeft(10);
     }, 0);
 
-    // เริ่มนับถอยหลัง
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
-          // หมดเวลา: สร้าง QR ใหม่ และรีเซ็ตเวลา
           setQrData(createQRString());
           return 10;
         }
-        // ยังไม่หมดเวลา: ลดเวลาลง
         return prev - 1;
       });
     }, 1000);
 
-    // Cleanup เมื่อเปลี่ยนโหมด
     return () => {
-      clearTimeout(initialSetup); // เคลียร์ timeout ด้วย
+      clearTimeout(initialSetup);
       clearInterval(timer);
     };
   }, [mode]);
@@ -91,7 +115,8 @@ export default function ScanPage() {
       
       {/* --- Header --- */}
       <div className="absolute top-0 left-0 right-0 z-30 px-6 pt-12 pb-4 flex justify-between items-center bg-gradient-to-b from-black/80 to-transparent">
-        <Link href="/">
+        {/* ปุ่มปิด: กลับไป Dashboard */}
+        <Link href="/dashboard">
            <button className="p-2 bg-white/20 backdrop-blur-md rounded-full hover:bg-white/30 transition">
              <X size={24} className="text-white" />
            </button>
@@ -123,6 +148,7 @@ export default function ScanPage() {
             <video ref={videoRef} autoPlay playsInline muted className="absolute inset-0 w-full h-full object-cover" />
           )}
 
+          {/* กรอบสแกน */}
           <div className="relative z-10 w-64 h-64 border-2 border-white/50 rounded-3xl overflow-hidden shadow-[0_0_0_1000px_rgba(0,0,0,0.6)]">
              <div className="absolute top-0 left-0 right-0 h-1 bg-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.8)] animate-scan"></div>
              <div className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-blue-500 rounded-tl-xl"></div>
@@ -150,7 +176,6 @@ export default function ScanPage() {
               {/* Real QR Code Component */}
               <div className="p-4 border-2 border-dashed border-gray-200 rounded-xl mb-4 bg-white">
                 <div className="w-[180px] h-[180px] flex items-center justify-center">
-                    {/* ตรวจสอบว่ามีข้อมูลก่อน render */}
                     {qrData && (
                       <QRCode 
                           value={qrData}
