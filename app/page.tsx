@@ -2,6 +2,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link"; // อย่าลืม import Link
 import { 
   ScanLine, 
   Home, 
@@ -11,11 +12,8 @@ import {
   Clock, 
   MapPin, 
   ChevronRight,
-  CheckCircle2,
-  AlertCircle
+  CheckCircle2
 } from "lucide-react";
-
-import Link from "next/link";
 
 export default function StudentDashboard() {
   return (
@@ -119,10 +117,11 @@ export default function StudentDashboard() {
       <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t border-gray-100 px-6 py-4 rounded-t-3xl shadow-[0_-5px_20px_rgba(0,0,0,0.03)] z-50">
         <div className="flex justify-between items-center relative">
           <Link href="/">
-            <NavItem icon={<Home size={24} />} label="ภาพรวม" active />
+             <NavItem icon={<Home size={24} />} label="ภาพรวม" active />
           </Link>
+          
           <Link href="/schedule">
-            <NavItem icon={<CalendarDays size={24} />} label="ตารางเรียน" />
+             <NavItem icon={<CalendarDays size={24} />} label="ตารางเรียน" />
           </Link>
           
           {/* Scan Button (Floating) */}
@@ -141,7 +140,7 @@ export default function StudentDashboard() {
   );
 }
 
-// --- Sub-Components (เพื่อความสะอาดของโค้ด) ---
+// --- Sub-Components ---
 
 function StatCard({ label, value, color }: { label: string, value: string, color: string }) {
   return (
@@ -189,7 +188,8 @@ function HistoryItem({ subject, status, time, isLate }: { subject: string, statu
   );
 }
 
-function NavItem({ icon, label, active = false, hasBadge = false }: { icon: any, label: string, active?: boolean, hasBadge?: boolean }) {
+// *** แก้ไขตรงนี้ครับ เปลี่ยนจาก icon: any เป็น icon: React.ReactNode ***
+function NavItem({ icon, label, active = false, hasBadge = false }: { icon: React.ReactNode, label: string, active?: boolean, hasBadge?: boolean }) {
   return (
     <button className={`flex flex-col items-center gap-1 ${active ? 'text-indigo-600' : 'text-gray-400'}`}>
       <div className="relative">

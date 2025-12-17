@@ -25,7 +25,7 @@ type ClassSession = {
   code: string;
   room: string;
   teacher: string;
-  type: 'class' | 'break'; // เพิ่ม type เพื่อแยกพักเที่ยง (ถ้าอยากใส่)
+  type: 'class' | 'break';
   status: 'finished' | 'current' | 'upcoming';
   color: string;
 };
@@ -52,7 +52,7 @@ const fullWeeklySchedule: Record<string, ClassSession[]> = {
     { id: 't6', time: '13:50 - 14:40', subject: 'สุขศึกษา', code: 'พ30101', room: '4A05', teacher: 'อ.รักดี', type: 'class', status: 'upcoming', color: 'bg-green-100 text-green-800' },
     { id: 't7', time: '14:40 - 15:30', subject: 'กิจกรรมชุมนุม', code: 'ก30902', room: '-', teacher: '-', type: 'class', status: 'upcoming', color: 'bg-pink-100 text-pink-800' },
   ],
-  "Wednesday": [ // สมมติว่าเป็นวันนี้ (Today)
+  "Wednesday": [
     { id: 'w1', time: '08:30 - 09:20', subject: 'เคมี 1', code: 'ว30221', room: 'LAB Chem', teacher: 'อ.อุษา', type: 'class', status: 'finished', color: 'bg-cyan-100 text-cyan-800' },
     { id: 'w2', time: '09:20 - 10:10', subject: 'เคมี 1', code: 'ว30221', room: 'LAB Chem', teacher: 'อ.อุษา', type: 'class', status: 'finished', color: 'bg-cyan-100 text-cyan-800' },
     { id: 'w3', time: '10:10 - 11:00', subject: 'ภาษาอังกฤษฟัง-พูด', code: 'อ30201', room: 'Sound Lab', teacher: 'T.Jessica', type: 'class', status: 'finished', color: 'bg-purple-100 text-purple-800' },
@@ -90,7 +90,6 @@ export default function SchedulePage() {
   const [activeTab, setActiveTab] = useState<'today' | 'weekly'>('today');
   const [selectedDay, setSelectedDay] = useState<string>("พุธ");
 
-  // วันนี้กำหนดให้เป็นวันพุธตาม Mockup
   const currentSchedule = activeTab === 'today' 
     ? fullWeeklySchedule["Wednesday"] 
     : (fullWeeklySchedule[mapDayToKey(selectedDay)] || []);
@@ -299,7 +298,8 @@ export default function SchedulePage() {
   );
 }
 
-function NavItem({ icon, label, active = false, hasBadge = false }: { icon: any, label: string, active?: boolean, hasBadge?: boolean }) {
+// *** แก้ไขตรงนี้ครับ เปลี่ยนจาก icon: any เป็น icon: React.ReactNode ***
+function NavItem({ icon, label, active = false, hasBadge = false }: { icon: React.ReactNode, label: string, active?: boolean, hasBadge?: boolean }) {
   return (
     <div className={`flex flex-col items-center gap-1 cursor-pointer ${active ? 'text-indigo-600' : 'text-gray-400'}`}>
       <div className="relative">
