@@ -276,21 +276,32 @@ export default function SchedulePage() {
       {/* --- Bottom Navigation --- */}
       <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t border-gray-100 px-6 py-4 rounded-t-3xl shadow-[0_-5px_20px_rgba(0,0,0,0.03)] z-50">
         <div className="flex justify-between items-center relative">
+          
+          {/* ปุ่มภาพรวม */}
           <Link href="/">
              <NavItem icon={<Home size={24} />} label="ภาพรวม" />
           </Link>
           
+          {/* ปุ่มตารางเรียน (หน้านี้คือหน้าตารางเรียนอยู่แล้ว เลยใส่ active) */}
           <Link href="/schedule">
             <NavItem icon={<CalendarDays size={24} />} label="ตารางเรียน" active />
           </Link>
           
+          {/* ปุ่มสแกน (เพิ่ม Link ครอบ) */}
           <div className="relative -top-8">
-            <div className="bg-indigo-600 p-4 rounded-full shadow-lg shadow-indigo-300 ring-4 ring-white cursor-pointer transform transition active:scale-95">
-              <ScanLine size={28} color="white" />
-            </div>
+            <Link href="/scan">
+              <div className="bg-indigo-600 p-4 rounded-full shadow-lg shadow-indigo-300 ring-4 ring-white cursor-pointer transform transition active:scale-95">
+                <ScanLine size={28} color="white" />
+              </div>
+            </Link>
           </div>
           
-          <NavItem icon={<Bell size={24} />} label="แจ้งเตือน" hasBadge />
+          {/* ปุ่มแจ้งเตือน (เพิ่ม Link ครอบ) */}
+          <Link href="/notifications">
+            <NavItem icon={<Bell size={24} />} label="แจ้งเตือน" hasBadge />
+          </Link>
+          
+          {/* ปุ่มบัญชี (ยังไม่มีหน้า ใส่ # ไว้ก่อน) */}
           <NavItem icon={<User size={24} />} label="บัญชี" />
         </div>
       </div>

@@ -1,0 +1,300 @@
+// app/notifications/page.tsx
+"use client";
+
+import React, { useState } from "react";
+import Link from "next/link";
+import { 
+  ChevronLeft, 
+  CheckCheck, 
+  Bell, 
+  CalendarX, 
+  School, 
+  Clock, 
+  LogIn, 
+  AlertTriangle,
+  X,
+  Home,
+  CalendarDays,
+  ScanLine,
+  User
+} from "lucide-react";
+
+// --- Types ---
+type NotificationType = 'cancel_class' | 'school_holiday' | 'attendance_reminder' | 'entry_exit' | 'absence_risk';
+
+interface NotificationItem {
+  id: number;
+  type: NotificationType;
+  title: string;
+  message: string;
+  fullDetail?: string; // เพิ่มรายละเอียดแบบยาวสำหรับ Popup
+  time: string;
+  isRead: boolean;
+}
+
+// --- Mock Data ---
+const initialNotifications: NotificationItem[] = [
+  {
+    id: 1,
+    type: 'absence_risk',
+    title: "แจ้งเตือนความเสี่ยงขาดเรียน!",
+    message: "คุณขาดเรียนวิชา 'คณิตศาสตร์เพิ่มเติม' สะสมครบ 3 ครั้งแล้ว...",
+    fullDetail: "เรียน นายทินภัทร, ขณะนี้คุณมีสถิติขาดเรียนวิชา ค30201 คณิตศาสตร์เพิ่มเติม สะสมครบ 3 ครั้ง ซึ่งเข้าเกณฑ์เฝ้าระวังระดับ 1 กรุณาติดต่อครูผู้สอนหรือครูที่ปรึกษาเพื่อชี้แจงสาเหตุ มิฉะนั้นอาจมีผลต่อสิทธิ์สอบปลายภาค",
+    time: "10 นาทีที่แล้ว",
+    isRead: false,
+  },
+  {
+    id: 2,
+    type: 'attendance_reminder',
+    title: "ใกล้หมดเวลาเช็คชื่อ",
+    message: "อย่าลืมสแกน QR Code เช็คชื่อก่อนเวลา 08:00 น.",
+    fullDetail: "ระบบตรวจพบว่าคุณอยู่ในบริเวณโรงเรียนแล้ว แต่ยังไม่ได้ทำการเช็คชื่อเข้าแถวหน้าเสาธง กรุณาดำเนินการภายในเวลา 08:00 น. เพื่อไม่ให้บันทึกเป็น 'มาสาย'",
+    time: "30 นาทีที่แล้ว",
+    isRead: false,
+  },
+  {
+    id: 3,
+    type: 'cancel_class',
+    title: "แจ้งงดการเรียนการสอน",
+    message: "วิชา ฟิสิกส์ (คาบ 5) วันนี้งดการเรียนการสอน...",
+    fullDetail: "แจ้งงดการเรียนการสอน วิชา ว30201 ฟิสิกส์ 1 คาบที่ 5 วันนี้ เนื่องจากครูวิชัยติดภารกิจราชการด่วน ให้นักเรียนศึกษาค้นคว้าด้วยตนเองที่ห้องสมุด",
+    time: "1 ชั่วโมงที่แล้ว",
+    isRead: false,
+  },
+  {
+    id: 4,
+    type: 'entry_exit',
+    title: "เช็คอินเข้าโรงเรียนสำเร็จ",
+    message: "ระบบบันทึกเวลาเข้าเรียนของคุณเรียบร้อยแล้ว (07:45 น.)",
+    fullDetail: "บันทึกเวลาเข้าโรงเรียนสำเร็จ เวลา 07:45 น. ผ่านจุดตรวจประตู 1 สถานะ: ปกติ",
+    time: "วันนี้ 07:45 น.",
+    isRead: true,
+  },
+  {
+    id: 5,
+    type: 'school_holiday',
+    title: "ประกาศหยุดเรียนกรณีพิเศษ",
+    message: "โรงเรียนหยุดทำการในวันศุกร์ที่ 16 ก.พ....",
+    fullDetail: "ประกาศจากฝ่ายวิชาการ: โรงเรียนหยุดทำการเรียนการสอนในวันศุกร์ที่ 16 กุมภาพันธ์ เนื่องจากใช้สถานที่ในการจัดสอบ O-NET ระดับชั้นมัธยมศึกษาปีที่ 3",
+    time: "เมื่อวานนี้",
+    isRead: true,
+  },
+];
+
+export default function NotificationsPage() {
+  const [notifications, setNotifications] = useState<NotificationItem[]>(initialNotifications);
+  const [selectedNotif, setSelectedNotif] = useState<NotificationItem | null>(null); // State สำหรับ Modal
+
+  // ฟังก์ชันกดอ่านรายตัว (เปิด Modal + Mark as Read)
+  const handleItemClick = (item: NotificationItem) => {
+    // 1. เปิด Modal
+    setSelectedNotif(item);
+    
+    // 2. เปลี่ยนสถานะเป็นอ่านแล้ว
+    if (!item.isRead) {
+      setNotifications(prev => prev.map(n => 
+        n.id === item.id ? { ...n, isRead: true } : n
+      ));
+    }
+  };
+
+  // ฟังก์ชันปิด Modal
+  const closeModal = () => {
+    setSelectedNotif(null);
+  };
+
+  // ฟังก์ชันกดอ่านทั้งหมด (ไม่เปิด Modal)
+  const markAllAsRead = () => {
+    setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
+  };
+
+  // นับจำนวนที่ยังไม่อ่าน (Real-time)
+  const unreadCount = notifications.filter(n => !n.isRead).length;
+
+  return (
+    <div className="flex flex-col h-full min-h-screen bg-[#F8F9FA] relative">
+      
+      {/* --- Header --- */}
+      <div className="bg-white px-6 pt-12 pb-4 shadow-sm sticky top-0 z-20">
+        <div className="flex items-center justify-between mb-2">
+          <Link href="/">
+            <button className="p-2 -ml-2 text-gray-500 hover:text-gray-900 rounded-full hover:bg-gray-100 transition">
+              <ChevronLeft size={24} />
+            </button>
+          </Link>
+          <h1 className="text-xl font-bold text-gray-900 flex-1 text-center pr-8">การแจ้งเตือน</h1>
+        </div>
+        
+        <div className="flex justify-between items-end">
+          <p className="text-gray-500 text-sm">
+            คุณมี <span className={unreadCount > 0 ? "text-red-500 font-bold" : "text-gray-500"}>{unreadCount}</span> ข้อความที่ยังไม่อ่าน
+          </p>
+          {unreadCount > 0 && (
+            <button 
+              onClick={markAllAsRead}
+              className="text-xs text-indigo-600 font-medium flex items-center gap-1 hover:underline"
+            >
+              <CheckCheck size={14} /> อ่านทั้งหมด
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* --- Notification List --- */}
+      <main className="px-4 py-4 space-y-3 overflow-y-auto pb-32">
+        {notifications.length > 0 ? (
+          notifications.map((item) => (
+            <div 
+              key={item.id}
+              onClick={() => handleItemClick(item)}
+              className={`relative p-4 rounded-2xl border transition-all cursor-pointer active:scale-[0.98] ${
+                item.isRead 
+                  ? 'bg-white border-gray-100 shadow-sm opacity-80' 
+                  : 'bg-white border-indigo-100 shadow-md ring-1 ring-indigo-50'
+              }`}
+            >
+              {/* Unread Dot Indicator */}
+              {!item.isRead && (
+                <div className="absolute top-4 right-4 w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse"></div>
+              )}
+
+              <div className="flex gap-4">
+                {/* Icon Box */}
+                <div className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 ${getIconStyle(item.type)}`}>
+                  {getIcon(item.type)}
+                </div>
+
+                {/* Content */}
+                <div className="flex-1 pr-4">
+                  <h3 className={`font-semibold text-sm mb-1 ${item.isRead ? 'text-gray-600' : 'text-gray-900'}`}>
+                    {item.title}
+                  </h3>
+                  <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">
+                    {item.message}
+                  </p>
+                  <p className="text-[10px] text-gray-400 mt-2 font-medium">
+                    {item.time}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+           <div className="flex flex-col items-center justify-center py-20 text-gray-400">
+              <Bell size={48} className="mb-4 opacity-20" />
+              <p>ไม่มีการแจ้งเตือน</p>
+           </div>
+        )}
+      </main>
+
+      {/* --- Popup Modal (แสดงเมื่อกดอ่าน) --- */}
+      {selectedNotif && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center px-4">
+          {/* Backdrop (กดพื้นหลังเพื่อปิด) */}
+          <div 
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-fade-in"
+            onClick={closeModal}
+          ></div>
+          
+          {/* Modal Content */}
+          <div className="bg-white w-full max-w-sm rounded-3xl p-6 relative z-10 shadow-2xl animate-slide-up">
+            <button 
+              onClick={closeModal}
+              className="absolute top-4 right-4 p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition"
+            >
+              <X size={20} className="text-gray-600" />
+            </button>
+
+            <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-4 ${getIconStyle(selectedNotif.type)}`}>
+               {getIcon(selectedNotif.type)}
+            </div>
+
+            <h3 className="text-lg font-bold text-gray-900 mb-2">{selectedNotif.title}</h3>
+            <p className="text-xs text-gray-400 mb-4 flex items-center gap-1">
+              <Clock size={12} /> {selectedNotif.time}
+            </p>
+            
+            <div className="bg-gray-50 p-4 rounded-xl text-sm text-gray-700 leading-relaxed border border-gray-100 mb-6">
+              {selectedNotif.fullDetail || selectedNotif.message}
+            </div>
+
+            <button 
+              onClick={closeModal}
+              className="w-full py-3 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 transition shadow-lg shadow-indigo-200"
+            >
+              รับทราบ
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* --- Bottom Navigation --- */}
+      <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t border-gray-100 px-6 py-4 rounded-t-3xl shadow-[0_-5px_20px_rgba(0,0,0,0.03)] z-40">
+        <div className="flex justify-between items-center relative">
+          <Link href="/">
+             <NavItem icon={<Home size={24} />} label="ภาพรวม" />
+          </Link>
+          
+          <Link href="/schedule">
+             <NavItem icon={<CalendarDays size={24} />} label="ตารางเรียน" />
+          </Link>
+          
+          <div className="relative -top-8">
+            <Link href="/scan">
+              <div className="bg-indigo-600 p-4 rounded-full shadow-lg shadow-indigo-300 ring-4 ring-white cursor-pointer transform transition active:scale-95">
+                <ScanLine size={28} color="white" />
+              </div>
+            </Link>
+          </div>
+          
+          {/* Active State + Logic จุดแดง: แสดงเฉพาะเมื่อ unreadCount > 0 */}
+          <NavItem 
+            icon={<Bell size={24} />} 
+            label="แจ้งเตือน" 
+            active={true}
+            hasBadge={unreadCount > 0} 
+          />
+
+          <NavItem icon={<User size={24} />} label="บัญชี" />
+        </div>
+      </div>
+
+    </div>
+  );
+}
+
+// --- Helper Functions ---
+
+function getIcon(type: NotificationType) {
+  switch (type) {
+    case 'cancel_class': return <CalendarX size={24} />;
+    case 'school_holiday': return <School size={24} />;
+    case 'attendance_reminder': return <Clock size={24} />;
+    case 'entry_exit': return <LogIn size={24} />;
+    case 'absence_risk': return <AlertTriangle size={24} />;
+    default: return <Bell size={24} />;
+  }
+}
+
+function getIconStyle(type: NotificationType) {
+  switch (type) {
+    case 'cancel_class': return 'bg-orange-100 text-orange-600';
+    case 'school_holiday': return 'bg-blue-100 text-blue-600';
+    case 'attendance_reminder': return 'bg-yellow-100 text-yellow-700';
+    case 'entry_exit': return 'bg-green-100 text-green-600';
+    case 'absence_risk': return 'bg-red-100 text-red-600';
+    default: return 'bg-gray-100 text-gray-600';
+  }
+}
+
+function NavItem({ icon, label, active = false, hasBadge = false }: { icon: any, label: string, active?: boolean, hasBadge?: boolean }) {
+  return (
+    <div className={`flex flex-col items-center gap-1 cursor-pointer ${active ? 'text-indigo-600' : 'text-gray-400'}`}>
+      <div className="relative">
+        {icon}
+        {hasBadge && <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white animate-bounce"></span>}
+      </div>
+      <span className="text-[10px] font-medium">{label}</span>
+    </div>
+  );
+}

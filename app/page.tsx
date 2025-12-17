@@ -126,14 +126,16 @@ export default function StudentDashboard() {
           
           {/* Scan Button (Floating) */}
           <div className="relative -top-8">
-            <Link href="/scan"> 
+            <Link href="/scan">   
               <div className="bg-indigo-600 p-4 rounded-full shadow-lg shadow-indigo-300 ring-4 ring-white cursor-pointer transform transition active:scale-95">
                 <ScanLine size={28} color="white" />
               </div>
             </Link>
           </div>
           
-          <NavItem icon={<Bell size={24} />} label="แจ้งเตือน" hasBadge />
+          <Link href="/notifications">
+             <NavItem icon={<Bell size={24} />} label="แจ้งเตือน" hasBadge={true} />
+          </Link>
           <NavItem icon={<User size={24} />} label="บัญชี" />
         </div>
       </div>
