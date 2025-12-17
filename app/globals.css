@@ -5,13 +5,6 @@
   --foreground: #171717;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -23,4 +16,30 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+@keyframes scan-move {
+  0%, 100% { top: 0%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  50% { top: 100%; }
+}
+
+.animate-scan {
+  animation: scan-move 3s linear infinite;
+}
+
+@keyframes slide-up-fade {
+  0% {
+    transform: translateY(100%); /* เลื่อนลงไปข้างล่าง 100% */
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);    /* กลับมาที่เดิม */
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up-fade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
