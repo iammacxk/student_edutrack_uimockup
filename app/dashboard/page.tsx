@@ -44,9 +44,11 @@ export default function StudentDashboard() {
         <section>
           <div className="flex justify-between items-end mb-4">
             <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200">คาบเรียนถัดไป</h2>
-            <button className="text-xs text-blue-600 dark:text-blue-400 font-medium hover:underline flex items-center">
-              ดูตารางเรียนเต็ม <ChevronRight size={14} />
-            </button>
+            <Link href="/schedule">
+              <button className="text-xs text-blue-600 dark:text-blue-400 font-medium hover:underline flex items-center">
+                ดูตารางเรียนเต็ม <ChevronRight size={14} />
+              </button>
+            </Link>
           </div>
 
           <div className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-3xl p-6 text-white shadow-lg shadow-indigo-200 dark:shadow-none mb-4 relative overflow-hidden">
