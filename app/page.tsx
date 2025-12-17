@@ -14,8 +14,10 @@ import {
   ChevronRight,
   CheckCircle2
 } from "lucide-react";
+import { useNotification } from "./context/NotificationContext";
 
 export default function StudentDashboard() {
+  const { unreadCount } = useNotification();
   return (
     <div className="flex flex-col h-full bg-[#F8F9FA] pb-24">
       
@@ -112,7 +114,7 @@ export default function StudentDashboard() {
           </div>
         </section>
       </main>
-
+    
       {/* --- แถบเมนูด้านล่าง (Bottom Navigation) --- */}
       <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t border-gray-100 px-6 py-4 rounded-t-3xl shadow-[0_-5px_20px_rgba(0,0,0,0.03)] z-50">
         <div className="flex justify-between items-center relative">
@@ -134,7 +136,7 @@ export default function StudentDashboard() {
           </div>
           
           <Link href="/notifications">
-             <NavItem icon={<Bell size={24} />} label="แจ้งเตือน" hasBadge={true} />
+             <NavItem icon={<Bell size={24} />} label="แจ้งเตือน" hasBadge={unreadCount > 0} />
           </Link>
           <NavItem icon={<User size={24} />} label="บัญชี" />
         </div>

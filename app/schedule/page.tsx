@@ -3,14 +3,16 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+// 1. Import Hook จาก Context
+import { useNotification } from "../context/NotificationContext"; 
 import { 
   Home, 
   CalendarDays, 
   Bell, 
   User, 
   ScanLine, 
-  Clock,
-  MapPin,
+  Clock, 
+  MapPin, 
   MoreVertical,
   BookOpen,
   Coffee,
@@ -37,7 +39,6 @@ const fullWeeklySchedule: Record<string, ClassSession[]> = {
     { id: 'm2', time: '09:20 - 10:10', subject: 'ชีววิทยา 1', code: 'ว30241', room: 'LAB Bio', teacher: 'อ.สมศรี', type: 'class', status: 'upcoming', color: 'bg-teal-100 text-teal-800' },
     { id: 'm3', time: '10:10 - 11:00', subject: 'คณิตศาสตร์เพิ่มเติม', code: 'ค30201', room: '911', teacher: 'อ.ศักดิ์ดา', type: 'class', status: 'upcoming', color: 'bg-red-100 text-red-800' },
     { id: 'm4', time: '11:00 - 11:50', subject: 'ภาษาอังกฤษหลัก', code: 'อ30101', room: 'Sound Lab', teacher: 'T.Andrew', type: 'class', status: 'upcoming', color: 'bg-purple-100 text-purple-800' },
-    // พักเที่ยง
     { id: 'm5', time: '13:00 - 13:50', subject: 'ภาษาไทย', code: 'ท30101', room: '4A02', teacher: 'อ.กานดา', type: 'class', status: 'upcoming', color: 'bg-orange-100 text-orange-800' },
     { id: 'm6', time: '13:50 - 14:40', subject: 'สังคมศึกษา', code: 'ส30101', room: '322', teacher: 'อ.ปราณี', type: 'class', status: 'upcoming', color: 'bg-yellow-100 text-yellow-800' },
     { id: 'm7', time: '14:40 - 15:30', subject: 'กิจกรรมแนะแนว', code: 'ก30901', room: 'ห้องโถง', teacher: 'อ.ที่ปรึกษา', type: 'class', status: 'upcoming', color: 'bg-gray-200 text-gray-700' },
@@ -47,7 +48,6 @@ const fullWeeklySchedule: Record<string, ClassSession[]> = {
     { id: 't2', time: '09:20 - 10:10', subject: 'ฟิสิกส์ 1', code: 'ว30201', room: 'LAB Phy', teacher: 'อ.วิชัย', type: 'class', status: 'upcoming', color: 'bg-blue-100 text-blue-800' },
     { id: 't3', time: '10:10 - 11:00', subject: 'คณิตศาสตร์พื้นฐาน', code: 'ค31101', room: '912', teacher: 'อ.สมชาย', type: 'class', status: 'upcoming', color: 'bg-red-50 text-red-700' },
     { id: 't4', time: '11:00 - 11:50', subject: 'วิทยาการคำนวณ', code: 'ว30103', room: 'Com Lab 1', teacher: 'อ.Tech', type: 'class', status: 'upcoming', color: 'bg-indigo-100 text-indigo-800' },
-    // พักเที่ยง
     { id: 't5', time: '13:00 - 13:50', subject: 'ประวัติศาสตร์', code: 'ส30103', room: '324', teacher: 'อ.มั่นคง', type: 'class', status: 'upcoming', color: 'bg-amber-100 text-amber-800' },
     { id: 't6', time: '13:50 - 14:40', subject: 'สุขศึกษา', code: 'พ30101', room: '4A05', teacher: 'อ.รักดี', type: 'class', status: 'upcoming', color: 'bg-green-100 text-green-800' },
     { id: 't7', time: '14:40 - 15:30', subject: 'กิจกรรมชุมนุม', code: 'ก30902', room: '-', teacher: '-', type: 'class', status: 'upcoming', color: 'bg-pink-100 text-pink-800' },
@@ -57,7 +57,6 @@ const fullWeeklySchedule: Record<string, ClassSession[]> = {
     { id: 'w2', time: '09:20 - 10:10', subject: 'เคมี 1', code: 'ว30221', room: 'LAB Chem', teacher: 'อ.อุษา', type: 'class', status: 'finished', color: 'bg-cyan-100 text-cyan-800' },
     { id: 'w3', time: '10:10 - 11:00', subject: 'ภาษาอังกฤษฟัง-พูด', code: 'อ30201', room: 'Sound Lab', teacher: 'T.Jessica', type: 'class', status: 'finished', color: 'bg-purple-100 text-purple-800' },
     { id: 'w4', time: '11:00 - 11:50', subject: 'คณิตศาสตร์เพิ่มเติม', code: 'ค30201', room: '911', teacher: 'อ.ศักดิ์ดา', type: 'class', status: 'finished', color: 'bg-red-100 text-red-800' },
-    // พักเที่ยง
     { id: 'w5', time: '13:00 - 13:50', subject: 'ศิลปะ (ทัศนศิลป์)', code: 'ศ31101', room: 'Art Room', teacher: 'อ.ติสท์', type: 'class', status: 'current', color: 'bg-fuchsia-100 text-fuchsia-800' },
     { id: 'w6', time: '13:50 - 14:40', subject: 'ลูกเสือ/รด.', code: 'ก30903', room: 'สนาม', teacher: 'ครูฝึก', type: 'class', status: 'upcoming', color: 'bg-green-700 text-white' },
     { id: 'w7', time: '14:40 - 15:30', subject: 'ศึกษาค้นคว้า', code: 'I30201', room: 'Library', teacher: 'อ.บรรณารักษ์', type: 'class', status: 'upcoming', color: 'bg-gray-100 text-gray-600' },
@@ -67,7 +66,6 @@ const fullWeeklySchedule: Record<string, ClassSession[]> = {
     { id: 'th2', time: '09:20 - 10:10', subject: 'คณิตศาสตร์พื้นฐาน', code: 'ค31101', room: '912', teacher: 'อ.สมชาย', type: 'class', status: 'upcoming', color: 'bg-red-50 text-red-700' },
     { id: 'th3', time: '10:10 - 11:00', subject: 'ชีววิทยา 1', code: 'ว30241', room: 'LAB Bio', teacher: 'อ.สมศรี', type: 'class', status: 'upcoming', color: 'bg-teal-100 text-teal-800' },
     { id: 'th4', time: '11:00 - 11:50', subject: 'ภาษาอังกฤษอ่าน-เขียน', code: 'อ30202', room: '4A01', teacher: 'อ.สุดา', type: 'class', status: 'upcoming', color: 'bg-purple-50 text-purple-700' },
-    // พักเที่ยง
     { id: 'th5', time: '13:00 - 13:50', subject: 'โลกและดาราศาสตร์', code: 'ว30104', room: 'Dome', teacher: 'อ.ดารา', type: 'class', status: 'upcoming', color: 'bg-slate-100 text-slate-800' },
     { id: 'th6', time: '13:50 - 14:40', subject: 'ภาษาไทย', code: 'ท30101', room: '4A02', teacher: 'อ.กานดา', type: 'class', status: 'upcoming', color: 'bg-orange-100 text-orange-800' },
     { id: 'th7', time: '14:40 - 15:30', subject: 'การงานอาชีพ', code: 'ง30101', room: 'Workshop', teacher: 'อ.ขยัน', type: 'class', status: 'upcoming', color: 'bg-lime-100 text-lime-800' },
@@ -77,7 +75,6 @@ const fullWeeklySchedule: Record<string, ClassSession[]> = {
     { id: 'f2', time: '09:20 - 10:10', subject: 'เคมี 1', code: 'ว30221', room: 'LAB Chem', teacher: 'อ.อุษา', type: 'class', status: 'upcoming', color: 'bg-cyan-100 text-cyan-800' },
     { id: 'f3', time: '10:10 - 11:00', subject: 'สังคมศึกษา', code: 'ส30101', room: '322', teacher: 'อ.ปราณี', type: 'class', status: 'upcoming', color: 'bg-yellow-100 text-yellow-800' },
     { id: 'f4', time: '11:00 - 11:50', subject: 'คณิตศาสตร์เพิ่มเติม', code: 'ค30201', room: '911', teacher: 'อ.ศักดิ์ดา', type: 'class', status: 'upcoming', color: 'bg-red-100 text-red-800' },
-    // พักเที่ยง
     { id: 'f5', time: '13:00 - 13:50', subject: 'พลศึกษา', code: 'พ30102', room: 'Gym', teacher: 'อ.แข็งแรง', type: 'class', status: 'upcoming', color: 'bg-green-100 text-green-800' },
     { id: 'f6', time: '13:50 - 14:40', subject: 'ภาษาอังกฤษหลัก', code: 'อ30101', room: 'Sound Lab', teacher: 'T.Andrew', type: 'class', status: 'upcoming', color: 'bg-purple-100 text-purple-800' },
     { id: 'f7', time: '14:40 - 15:30', subject: 'สาธารณะประโยชน์', code: '-', room: '-', teacher: 'ครูที่ปรึกษา', type: 'class', status: 'upcoming', color: 'bg-gray-200 text-gray-600' },
@@ -87,6 +84,9 @@ const fullWeeklySchedule: Record<string, ClassSession[]> = {
 const daysOfWeek = ["จันทร์", "อังคาร", "พุธ", "พฤหัส", "ศุกร์"];
 
 export default function SchedulePage() {
+  // 2. เรียกใช้ข้อมูล unreadCount จาก Context
+  const { unreadCount } = useNotification(); 
+
   const [activeTab, setActiveTab] = useState<'today' | 'weekly'>('today');
   const [selectedDay, setSelectedDay] = useState<string>("พุธ");
 
@@ -171,14 +171,12 @@ export default function SchedulePage() {
 
           {currentSchedule.length > 0 ? (
             currentSchedule.map((session, index) => {
-              // เช็คเพื่อวาดเส้นคั่นพักเที่ยง (ถ้าเวลาโดดจาก 11:50 -> 13:00)
               const showLunchBreak = index > 0 && 
                 session.time.startsWith('13:00') && 
                 currentSchedule[index-1].time.endsWith('11:50');
 
               return (
                 <React.Fragment key={session.id}>
-                  {/* Lunch Break Divider */}
                   {showLunchBreak && (
                     <div className="flex items-center gap-4 py-2 opacity-50">
                        <div className="w-[40px] flex justify-center">
@@ -191,19 +189,15 @@ export default function SchedulePage() {
                   )}
 
                   <div className="flex gap-4 relative">
-                    
-                    {/* Timeline Line */}
                     {index !== currentSchedule.length - 1 && (
                       <div className="absolute left-[19px] top-10 bottom-[-16px] w-[2px] bg-gray-200 z-0"></div>
                     )}
 
-                    {/* Left: Time & Icon */}
                     <div className="flex flex-col items-center gap-1 z-10 min-w-[40px]">
                       <div className={`w-10 h-10 rounded-full flex items-center justify-center border-4 border-[#F8F9FA] ${
                         session.status === 'current' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200' : 
                         session.status === 'finished' ? 'bg-gray-300 text-white' : 'bg-white border-indigo-100 text-indigo-600'
                       }`}>
-                         {/* เปลี่ยนไอคอนตามวิชา */}
                          {session.subject.includes('เคมี') || session.subject.includes('ฟิสิกส์') || session.subject.includes('ชีว') 
                             ? <Beaker size={18} /> 
                             : session.status === 'finished' ? <BookOpen size={16} /> : <Clock size={18} />
@@ -211,7 +205,6 @@ export default function SchedulePage() {
                       </div>
                     </div>
 
-                    {/* Right: Card */}
                     <div className={`flex-1 p-4 rounded-2xl border transition-all ${
                       session.status === 'current' 
                       ? 'bg-white border-indigo-200 shadow-md ring-1 ring-indigo-100' 
@@ -262,7 +255,6 @@ export default function SchedulePage() {
             </div>
           )}
 
-          {/* End of Day Indicator */}
           {currentSchedule.length > 0 && (
              <div className="flex items-center justify-center gap-2 py-4 opacity-50 mt-4">
                  <div className="w-2 h-2 rounded-full bg-gray-300"></div>
@@ -276,18 +268,14 @@ export default function SchedulePage() {
       {/* --- Bottom Navigation --- */}
       <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t border-gray-100 px-6 py-4 rounded-t-3xl shadow-[0_-5px_20px_rgba(0,0,0,0.03)] z-50">
         <div className="flex justify-between items-center relative">
-          
-          {/* ปุ่มภาพรวม */}
           <Link href="/">
              <NavItem icon={<Home size={24} />} label="ภาพรวม" />
           </Link>
           
-          {/* ปุ่มตารางเรียน (หน้านี้คือหน้าตารางเรียนอยู่แล้ว เลยใส่ active) */}
           <Link href="/schedule">
             <NavItem icon={<CalendarDays size={24} />} label="ตารางเรียน" active />
           </Link>
           
-          {/* ปุ่มสแกน (เพิ่ม Link ครอบ) */}
           <div className="relative -top-8">
             <Link href="/scan">
               <div className="bg-indigo-600 p-4 rounded-full shadow-lg shadow-indigo-300 ring-4 ring-white cursor-pointer transform transition active:scale-95">
@@ -296,12 +284,11 @@ export default function SchedulePage() {
             </Link>
           </div>
           
-          {/* ปุ่มแจ้งเตือน (เพิ่ม Link ครอบ) */}
+          {/* 3. ใช้ unreadCount เช็ค Badge */}
           <Link href="/notifications">
-            <NavItem icon={<Bell size={24} />} label="แจ้งเตือน" hasBadge />
+            <NavItem icon={<Bell size={24} />} label="แจ้งเตือน" hasBadge={unreadCount > 0} />
           </Link>
           
-          {/* ปุ่มบัญชี (ยังไม่มีหน้า ใส่ # ไว้ก่อน) */}
           <NavItem icon={<User size={24} />} label="บัญชี" />
         </div>
       </div>
@@ -309,7 +296,7 @@ export default function SchedulePage() {
   );
 }
 
-// *** แก้ไขตรงนี้ครับ เปลี่ยนจาก icon: any เป็น icon: React.ReactNode ***
+// ใช้ React.ReactNode เหมือนไฟล์อื่นๆ
 function NavItem({ icon, label, active = false, hasBadge = false }: { icon: React.ReactNode, label: string, active?: boolean, hasBadge?: boolean }) {
   return (
     <div className={`flex flex-col items-center gap-1 cursor-pointer ${active ? 'text-indigo-600' : 'text-gray-400'}`}>
