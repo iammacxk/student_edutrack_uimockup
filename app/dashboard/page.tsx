@@ -117,7 +117,9 @@ export default function StudentDashboard() {
              <NavItem icon={<Bell size={24} />} label="แจ้งเตือน" hasBadge={unreadCount > 0} />
           </Link>
           
-          <NavItem icon={<User size={24} />} label="บัญชี" />
+          <Link href="/account">
+             <NavItem icon={<User size={24} />} label="บัญชี" />
+          </Link>
         </div>
       </div>
 

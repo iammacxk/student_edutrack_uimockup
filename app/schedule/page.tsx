@@ -283,13 +283,12 @@ export default function SchedulePage() {
               </div>
             </Link>
           </div>
-          
-          {/* 3. ใช้ unreadCount เช็ค Badge */}
           <Link href="/notifications">
             <NavItem icon={<Bell size={24} />} label="แจ้งเตือน" hasBadge={unreadCount > 0} />
           </Link>
-          
-          <NavItem icon={<User size={24} />} label="บัญชี" />
+          <Link href="/account">
+             <NavItem icon={<User size={24} />} label="บัญชี" />
+          </Link>
         </div>
       </div>
     </div>

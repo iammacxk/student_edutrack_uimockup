@@ -4,6 +4,7 @@ import { Kanit } from "next/font/google";
 import "./globals.css";
 // 1. Import Provider
 import { NotificationProvider } from "./context/NotificationContext";
+import { ThemeProvider } from "./context/ThemeContext";
 
 const kanit = Kanit({ 
   subsets: ["thai", "latin"], 
@@ -26,9 +27,11 @@ export default function RootLayout({
       <body className={`${kanit.className} antialiased bg-gray-100`}>
         {/* 2. Wrap children with NotificationProvider */}
         <NotificationProvider>
-          <div className="mx-auto max-w-md min-h-screen bg-white shadow-2xl overflow-hidden relative">
-            {children}
-          </div>
+          <ThemeProvider>
+            <div className="mx-auto max-w-md min-h-screen bg-white dark:bg-zinc-900 shadow-2xl overflow-hidden relative transition-colors duration-300">
+              {children}
+            </div>
+          </ThemeProvider>
         </NotificationProvider>
       </body>
     </html>
