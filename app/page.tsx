@@ -134,7 +134,7 @@ export default function LoginPage() {
 
       </div>
       
-      <p className="mt-8 text-xs text-white/50">© 2024 Student Tracking System. All rights reserved.</p>
+      <p className="mt-8 text-xs text-white/50">© 2025 Student Tracking System. All rights reserved.</p>
     </div>
   );
 }
