@@ -114,18 +114,18 @@ export default function LoginPage() {
 
         {/* Hint Box: สำหรับช่วยจำตอนทดสอบระบบ (ลบออกได้เมื่อใช้งานจริง) */}
         <div className="mt-6 p-3 bg-gray-50 rounded-xl border border-gray-100 text-[10px] text-gray-500 text-center">
-            <p className="font-semibold mb-1">🔑 บัญชีทดสอบ (Demo Users)</p>
+            <p className="font-semibold mb-1">🔑 บัญชีทดสอบแต่ละหน้าที่ (Demo Users in each roles)</p>
             <div className="grid grid-cols-3 gap-2">
                 <div>
-                    <span className="block font-bold text-indigo-600">Student</span>
+                    <span className="block font-bold text-indigo-600">student</span>
                     student
                 </div>
                 <div>
-                    <span className="block font-bold text-indigo-600">Teacher</span>
+                    <span className="block font-bold text-indigo-600">teacher</span>
                     teacher
                 </div>
                 <div>
-                    <span className="block font-bold text-indigo-600">Parent</span>
+                    <span className="block font-bold text-indigo-600">parent</span>
                     parent
                 </div>
             </div>

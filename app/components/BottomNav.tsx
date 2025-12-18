@@ -80,7 +80,7 @@ export default function BottomNav() {
               <div className={`flex flex-col items-center gap-1 cursor-pointer ${isActive(item.href) ? 'text-indigo-600 dark:text-indigo-400' : 'text-gray-400 dark:text-zinc-500'}`}>
                 <div className="relative">
                   {item.icon}
-                  {item.badge && item.badge > 0 && (
+                  {(item.badge ?? 0) > 0 && (
                     <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white dark:border-zinc-900"></span>
                   )}
                 </div>
