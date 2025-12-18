@@ -24,22 +24,31 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="th">
-      {/* 1. พื้นหลังนอกสุด (Body) ให้เป็นสีมืด */}
-      <body className={`${kanit.className} antialiased bg-gray-100 dark:bg-zinc-950 transition-colors duration-300`}>
+      {/* 1. Body (พื้นหลัง Desktop): 
+            - flex justify-center: จัดคอนเทนต์ให้อยู่กึ่งกลางแนวนอน
+            - min-h-screen: สูงเต็มจอเสมอ
+            - bg-gray-100 / dark:bg-zinc-900: สีพื้นหลังรอบนอก (ทำให้ต่างจากตัวแอป)
+      */}
+      <body className={`${kanit.className} antialiased min-h-screen flex justify-center bg-gray-100 dark:bg-zinc-900 transition-colors duration-300`}>
+        
         <AuthProvider>
           <NotificationProvider>
-
             <ThemeProvider>
 
-              {/* 2. จุดที่ต้องแก้! เพิ่ม dark:bg-zinc-950 ให้กล่องมือถือ */}
-              <div className="mx-auto max-w-md min-h-screen bg-white dark:bg-zinc-950 shadow-2xl overflow-hidden relative transition-colors duration-300">
+              {/* 2. Container (ตัวแอปมือถือ):
+                    - w-full max-w-md: กว้างเต็มที่แต่ไม่เกินขนาดมือถือ (448px)
+                    - min-h-screen: ตัวแอปสูงเต็มจอ
+                    - bg-[#F8F9FA] / dark:bg-zinc-950: สีพื้นหลังของหน้าแอป
+                    - shadow-2xl: เงาเพื่อให้ดูลอยจากพื้นหลัง Desktop
+              */}
+              <div className="w-full max-w-md min-h-screen bg-[#F8F9FA] dark:bg-zinc-950 shadow-2xl relative overflow-x-hidden transition-colors duration-300">
                 {children}
               </div>
 
             </ThemeProvider>
-
           </NotificationProvider>
         </AuthProvider>
+        
       </body>
     </html>
   );
