@@ -2,11 +2,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useAuth } from "./context/AuthContext"; // เรียกใช้ AuthContext
 import { Lock, User, GraduationCap, ArrowRight, Eye, EyeOff } from "lucide-react";
 
 export default function LoginPage() {
-  const router = useRouter();
+  const { login } = useAuth(); // ดึงฟังก์ชัน login มาใช้
   
   // State
   const [username, setUsername] = useState("");
@@ -18,12 +18,17 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
 
-    // --- ตรวจสอบเงื่อนไข Login ---
-    // User ต้องเป็น 'student' เท่านั้น
-    // Password เป็นได้ทั้ง 'edutrack1111' หรือ 'admin'
-    if (username === "student" && (password === "edutrack1111" || password === "admin")) {
-      router.push("/dashboard");
-    } else {
+    // --- ตรวจสอบเงื่อนไข Login แยกตาม Role ---
+    if (username === "student" && password === "student") {
+      login('student');
+    } 
+    else if (username === "teacher" && password === "teacher") {
+      login('teacher');
+    } 
+    else if (username === "parent" && password === "parent") {
+      login('parent');
+    } 
+    else {
       setError("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
     }
   };
@@ -36,7 +41,8 @@ export default function LoginPage() {
         <div className="w-20 h-20 bg-white rounded-3xl flex items-center justify-center shadow-2xl mb-4">
           <GraduationCap size={40} className="text-indigo-600" />
         </div>
-        <h1 className="text-4xl font-bold tracking-tight">EduTrack</h1>
+        {/* เปลี่ยนชื่อแอพตามที่ขอครับ */}
+        <h1 className="text-3xl font-bold tracking-tight text-center">Student Tracking System</h1>
         <p className="text-indigo-100 mt-2 text-sm">ระบบติดตามดูแลผู้เรียนอัจฉริยะ</p>
       </div>
 
@@ -53,7 +59,7 @@ export default function LoginPage() {
               <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
               <input
                 type="text"
-                placeholder="Student ID"
+                placeholder="Username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition"
@@ -105,9 +111,30 @@ export default function LoginPage() {
         <div className="mt-6 text-center">
           <a href="#" className="text-xs text-gray-400 hover:text-indigo-600 transition">ลืมรหัสผ่าน?</a>
         </div>
+
+        {/* Hint Box: สำหรับช่วยจำตอนทดสอบระบบ (ลบออกได้เมื่อใช้งานจริง) */}
+        <div className="mt-6 p-3 bg-gray-50 rounded-xl border border-gray-100 text-[10px] text-gray-500 text-center">
+            <p className="font-semibold mb-1">🔑 บัญชีทดสอบ (Demo Users)</p>
+            <div className="grid grid-cols-3 gap-2">
+                <div>
+                    <span className="block font-bold text-indigo-600">Student</span>
+                    student
+                </div>
+                <div>
+                    <span className="block font-bold text-indigo-600">Teacher</span>
+                    teacher
+                </div>
+                <div>
+                    <span className="block font-bold text-indigo-600">Parent</span>
+                    parent
+                </div>
+            </div>
+            <p className="mt-1 text-gray-400">(Password เหมือน Username)</p>
+        </div>
+
       </div>
       
-      <p className="mt-8 text-xs text-white/50">© 2024 EduTrack System. All rights reserved.</p>
+      <p className="mt-8 text-xs text-white/50">© 2024 Student Tracking System. All rights reserved.</p>
     </div>
   );
 }
