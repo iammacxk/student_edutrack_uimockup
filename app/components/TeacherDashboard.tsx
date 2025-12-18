@@ -6,10 +6,6 @@ import Link from "next/link";
 import {
   Users,
   QrCode,
-  AlertTriangle,
-  CalendarDays,
-  Clock,
-  MapPin,
   ChevronRight,
   ClipboardList,
   UserCheck,
@@ -92,9 +88,12 @@ export default function TeacherDashboard() {
               ม.5/1 • ห้อง LAB Bio
             </p>
 
-            <button className="w-full bg-white text-indigo-600 py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-gray-50 active:scale-95 transition">
+            <Link
+              href="/generate-qr"
+              className="w-full bg-white text-indigo-600 py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-gray-50 active:scale-95 transition"
+            >
               <QrCode size={20} /> เปิด QR เช็คชื่อ
-            </button>
+            </Link>
           </div>
         </section>
 
@@ -131,7 +130,14 @@ export default function TeacherDashboard() {
   );
 }
 
-function StatCard({ label, value, icon, color }: any) {
+interface StatCardProps {
+  label: string;
+  value: string;
+  icon: React.ReactNode; // ใช้ ReactNode สำหรับ icon ที่เป็น Component
+  color: string;
+}
+
+function StatCard({ label, value, icon, color }: StatCardProps) {
   return (
     <div
       className={`rounded-2xl p-3 flex flex-col items-center justify-center gap-1 ${color}`}

@@ -34,7 +34,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-500 to-purple-600 flex flex-col items-center justify-center p-6 text-white">
+    <div className="min-h-screen bg-linear-to-br from-indigo-500 to-purple-600 flex flex-col items-center justify-center p-6 text-white">
       
       {/* Logo & Branding */}
       <div className="flex flex-col items-center mb-8 animate-slide-up">

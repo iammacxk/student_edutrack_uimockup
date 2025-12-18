@@ -3,7 +3,7 @@
 
 import React from "react";
 import { 
-  ShieldCheck, MapPin, Clock, BookOpen, AlertCircle, ChevronRight 
+  ShieldCheck, MapPin, Clock, BookOpen, ChevronRight 
 } from "lucide-react";
 
 export default function ParentDashboard() {
@@ -81,11 +81,23 @@ export default function ParentDashboard() {
   );
 }
 
-// --- Sub-Components ---
-function TimelineItem({ time, title, subtitle, icon, active, isCurrent, last }: any) {
+// --- Sub-Components & Types ---
+
+// ✅ 1. สร้าง Interface สำหรับ TimelineItem
+interface TimelineItemProps {
+  time: string;
+  title: string;
+  subtitle: string;
+  icon: React.ReactNode; // ใช้ ReactNode สำหรับ icon component
+  active?: boolean;      // ? หมายถึงเป็น optional (ไม่ต้องส่งมาก็ได้)
+  isCurrent?: boolean;
+  last?: boolean;
+}
+
+function TimelineItem({ time, title, subtitle, icon, active, isCurrent, last }: TimelineItemProps) {
   return (
     <div className="flex gap-4 relative">
-      {!last && <div className="absolute left-[15px] top-8 bottom-[-8px] w-0.5 bg-gray-100 dark:bg-zinc-800"></div>}
+      {!last && <div className="absolute left-3.75 top-8 -bottom-2 w-0.5 bg-gray-100 dark:bg-zinc-800"></div>}
       <div className={`w-8 h-8 rounded-full flex items-center justify-center z-10 ${isCurrent ? 'bg-indigo-600 text-white shadow-md' : active ? 'bg-green-100 text-green-600 dark:bg-green-900/30' : 'bg-gray-100 text-gray-400 dark:bg-zinc-800'}`}>
         {icon}
       </div>
@@ -98,7 +110,14 @@ function TimelineItem({ time, title, subtitle, icon, active, isCurrent, last }: 
   );
 }
 
-function HomeworkItem({ subject, title, deadline }: any) {
+// ✅ 2. สร้าง Interface สำหรับ HomeworkItem
+interface HomeworkItemProps {
+  subject: string;
+  title: string;
+  deadline: string;
+}
+
+function HomeworkItem({ subject, title, deadline }: HomeworkItemProps) {
   return (
     <div className="bg-white dark:bg-zinc-900 p-4 rounded-xl border border-gray-100 dark:border-zinc-800 flex justify-between items-center">
        <div>

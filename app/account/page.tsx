@@ -11,7 +11,7 @@ import {
   Moon, Sun, LogOut, ChevronRight,
   Shield, Globe, HelpCircle, Lock,
   X, Save, Smartphone, Mail, Hash, UserCircle,
-  Binary // ✅ เพิ่ม Icon ใหม่
+  Binary 
 } from "lucide-react";
 
 export default function AccountPage() {
@@ -22,7 +22,7 @@ export default function AccountPage() {
   // --- State สำหรับข้อมูลผู้ใช้ (Editable) ---
   const [profile, setProfile] = useState({
     studentId: "66160123", // Read-only
-    classNo: "9",          // ✅ เพิ่ม field เลขที่ (Read-only)
+    classNo: "9",          // เพิ่ม field เลขที่ (Read-only)
     fullName: "นายเอ็ม ออนิว", // Read-only
     classRoom: "ม.5/1", // Read-only
     nickname: "M Allnew", // Editable
@@ -95,7 +95,7 @@ export default function AccountPage() {
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" className="sr-only peer" checked={isDarkMode} onChange={toggleTheme} />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer dark:bg-zinc-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-indigo-600"></div>
+                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer dark:bg-zinc-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-indigo-600"></div>
               </label>
             </div>
 
@@ -260,7 +260,7 @@ export default function AccountPage() {
                 <strong>1. การเก็บรวบรวมข้อมูล:</strong> แอปพลิเคชัน EduTrack จะทำการเก็บรวบรวมข้อมูลส่วนบุคคลของนักเรียน ได้แก่ ชื่อ-นามสกุล, รหัสนักเรียน, รูปถ่าย, และประวัติการเข้าเรียน เพื่อใช้ในการบริหารจัดการการเรียนการสอนเท่านั้น
               </p>
               <p>
-                <strong>2. การเข้าถึงตำแหน่ง (Location):</strong> แอปพลิเคชันจำเป็นต้องเข้าถึงตำแหน่ง GPS ของท่านเฉพาะตอนทำการ "เช็คชื่อ" เพื่อยืนยันว่านักเรียนอยู่ในบริเวณโรงเรียนจริง เราไม่มีการติดตามตำแหน่งนอกเวลาเรียน
+                <strong>2. การเข้าถึงตำแหน่ง (Location):</strong> แอปพลิเคชันจำเป็นต้องเข้าถึงตำแหน่ง GPS ของท่านเฉพาะตอนทำการ &ldquo;เช็คชื่อ&quot; เพื่อยืนยันว่านักเรียนอยู่ในบริเวณโรงเรียนจริง เราไม่มีการติดตามตำแหน่งนอกเวลาเรียน
               </p>
               <p>
                 <strong>3. การเปิดเผยข้อมูล:</strong> ข้อมูลของท่านจะถูกเก็บเป็นความลับและเปิดเผยเฉพาะกับ ครูที่ปรึกษา, ครูผู้สอน และผู้ปกครองที่ลงทะเบียนไว้เท่านั้น

@@ -64,7 +64,7 @@ export default function StudentDashboard() {
             </Link>
           </div>
 
-          <div className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-3xl p-6 text-white shadow-lg shadow-indigo-200 dark:shadow-none mb-4 relative overflow-hidden">
+          <div className="bg-linear-to-br from-indigo-500 to-purple-600 rounded-3xl p-6 text-white shadow-lg shadow-indigo-200 dark:shadow-none mb-4 relative overflow-hidden">
             <div className="absolute -top-6 -right-6 w-32 h-32 bg-white opacity-10 rounded-full"></div>
             <div className="flex justify-between items-start mb-6">
               <span className="bg-white/20 px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm">

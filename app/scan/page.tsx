@@ -114,7 +114,7 @@ export default function ScanPage() {
     <div className="flex flex-col h-screen bg-black text-white relative overflow-hidden">
       
       {/* --- Header --- */}
-      <div className="absolute top-0 left-0 right-0 z-30 px-6 pt-12 pb-4 flex justify-between items-center bg-gradient-to-b from-black/80 to-transparent">
+      <div className="absolute top-0 left-0 right-0 z-30 px-6 pt-12 pb-4 flex justify-between items-center bg-linear-to-b from-black/80 to-transparent">
         {/* ปุ่มปิด: กลับไป Dashboard */}
         <Link href="/dashboard">
            <button className="p-2 bg-white/20 backdrop-blur-md rounded-full hover:bg-white/30 transition">
@@ -167,7 +167,7 @@ export default function ScanPage() {
         <div className="flex-1 bg-[#F8F9FA] relative text-gray-900 flex flex-col items-center pt-24 px-6 rounded-t-3xl mt-20 animate-slide-up">
            
            <div className="bg-white p-6 rounded-3xl shadow-xl border border-gray-100 w-full max-w-sm flex flex-col items-center relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-indigo-500 to-purple-500"></div>
+              <div className="absolute top-0 left-0 w-full h-2 bg-linear-to-r from-indigo-500 to-purple-500"></div>
               
               <div className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold text-3xl mb-4 border-4 border-white shadow-sm mt-4">T</div>
               <h2 className="text-xl font-bold text-gray-800">นายทินภัทร บูรณะบัญญัติ</h2>
@@ -175,7 +175,7 @@ export default function ScanPage() {
 
               {/* Real QR Code Component */}
               <div className="p-4 border-2 border-dashed border-gray-200 rounded-xl mb-4 bg-white">
-                <div className="w-[180px] h-[180px] flex items-center justify-center">
+                <div className="w-45 h-45 flex items-center justify-center">
                     {qrData && (
                       <QRCode 
                           value={qrData}

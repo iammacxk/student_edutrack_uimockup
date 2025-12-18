@@ -17,20 +17,34 @@ interface AuthContextType {
   user: UserProfile | null;
   login: (role: UserRole) => void;
   logout: () => void;
+  isLoading: boolean; 
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserProfile | null>(null);
+  const [isLoading, setIsLoading] = useState(true); 
   const router = useRouter();
 
-  // โหลดข้อมูลจาก LocalStorage ตอนเปิดแอป (กัน Refresh แล้วหลุด)
   useEffect(() => {
-    const savedUser = localStorage.getItem("eduTrackUser");
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
+    const initializeAuth = () => {
+      try {
+        const savedUser = localStorage.getItem("eduTrackUser");
+        if (savedUser) {
+          // Parse ข้อมูล ถ้าสำเร็จให้ Set User
+          const parsedUser = JSON.parse(savedUser);
+          setUser(parsedUser);
+        }
+      } catch (error) {
+        console.error("Error parsing auth data:", error);
+        localStorage.removeItem("eduTrackUser");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    initializeAuth();
   }, []);
 
   const login = (role: UserRole) => {
@@ -59,7 +73,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, isLoading }}>
       {children}
     </AuthContext.Provider>
   );
