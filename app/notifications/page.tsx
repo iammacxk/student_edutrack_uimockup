@@ -3,15 +3,24 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { useNotification, NotificationItem, NotificationType } from "../context/NotificationContext"; 
+import { useNotification, NotificationItem, NotificationType } from "../context/NotificationContext";
+import BottomNav from "../components/BottomNav"; // ✅ Import BottomNav
 import { 
-  ChevronLeft, CheckCheck, Bell, CalendarX, School, Clock, LogIn, AlertTriangle, X,
-  Home, CalendarDays, ScanLine, User
+  ChevronLeft, CheckCheck, Bell, CalendarX, School, Clock, LogIn, AlertTriangle, X
 } from "lucide-react";
 
 export default function NotificationsPage() {
   const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotification();
   const [selectedNotif, setSelectedNotif] = useState<NotificationItem | null>(null);
+  const [filter, setFilter] = useState<'all' | 'system' | 'urgent'>('all'); // เพิ่ม Filter
+
+  // Logic กรองข้อมูล
+  const filteredNotifications = notifications.filter(item => {
+    if (filter === 'all') return true;
+    if (filter === 'urgent') return item.type === 'absence_risk' || item.type === 'cancel_class';
+    if (filter === 'system') return item.type === 'entry_exit' || item.type === 'school_holiday';
+    return true;
+  });
 
   const handleItemClick = (item: NotificationItem) => {
     setSelectedNotif(item);
@@ -25,11 +34,11 @@ export default function NotificationsPage() {
   };
 
   return (
-    <div className="flex flex-col h-full min-h-screen bg-[#F8F9FA] dark:bg-zinc-950 relative transition-colors duration-300">
+    <div className="flex flex-col h-full min-h-screen bg-[#F8F9FA] dark:bg-zinc-950 relative transition-colors duration-300 pb-24">
       
       {/* --- Header --- */}
       <div className="bg-white dark:bg-zinc-900 px-6 pt-12 pb-4 shadow-sm sticky top-0 z-20 transition-colors duration-300">
-        <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center justify-between mb-4">
           <Link href="/dashboard">
             <button className="p-2 -ml-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white rounded-full hover:bg-gray-100 dark:hover:bg-zinc-800 transition">
               <ChevronLeft size={24} />
@@ -38,9 +47,16 @@ export default function NotificationsPage() {
           <h1 className="text-xl font-bold text-gray-900 dark:text-white flex-1 text-center pr-8">การแจ้งเตือน</h1>
         </div>
         
+        {/* Filter Tabs */}
+        <div className="flex gap-2 mb-4 overflow-x-auto pb-1 no-scrollbar">
+            <TabButton label="ทั้งหมด" isActive={filter === 'all'} onClick={() => setFilter('all')} count={unreadCount} />
+            <TabButton label="เรื่องด่วน" isActive={filter === 'urgent'} onClick={() => setFilter('urgent')} />
+            <TabButton label="ระบบ" isActive={filter === 'system'} onClick={() => setFilter('system')} />
+        </div>
+
         <div className="flex justify-between items-end">
-          <p className="text-gray-500 dark:text-gray-400 text-sm">
-            คุณมี <span className={unreadCount > 0 ? "text-red-500 dark:text-red-400 font-bold" : "text-gray-500 dark:text-gray-400"}>{unreadCount}</span> ข้อความที่ยังไม่อ่าน
+          <p className="text-gray-500 dark:text-gray-400 text-xs">
+            แสดง {filteredNotifications.length} รายการ
           </p>
           {unreadCount > 0 && (
             <button 
@@ -54,9 +70,9 @@ export default function NotificationsPage() {
       </div>
 
       {/* --- Notification List --- */}
-      <main className="px-4 py-4 space-y-3 overflow-y-auto pb-32">
-        {notifications.length > 0 ? (
-          notifications.map((item) => (
+      <main className="px-4 py-4 space-y-3 flex-1 overflow-y-auto">
+        {filteredNotifications.length > 0 ? (
+          filteredNotifications.map((item) => (
             <div 
               key={item.id}
               onClick={() => handleItemClick(item)}
@@ -125,30 +141,36 @@ export default function NotificationsPage() {
         </div>
       )}
 
-      {/* --- Bottom Navigation --- */}
-      <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white dark:bg-zinc-900 border-t border-gray-100 dark:border-zinc-800 px-6 py-4 rounded-t-3xl shadow-[0_-5px_20px_rgba(0,0,0,0.03)] z-40 transition-colors duration-300">
-        <div className="flex justify-between items-center relative">
-          <Link href="/dashboard"><NavItem icon={<Home size={24} />} label="ภาพรวม" /></Link>
-          <Link href="/schedule"><NavItem icon={<CalendarDays size={24} />} label="ตารางเรียน" /></Link>
-          <div className="relative -top-8">
-            <Link href="/scan">
-              <div className="bg-indigo-600 dark:bg-indigo-500 p-4 rounded-full shadow-lg shadow-indigo-300 dark:shadow-indigo-900 ring-4 ring-white dark:ring-zinc-900 cursor-pointer transform transition active:scale-95">
-                <ScanLine size={28} color="white" />
-              </div>
-            </Link>
-          </div>
-          <Link href="/notifications">
-            <NavItem icon={<Bell size={24} />} label="แจ้งเตือน" active={true} hasBadge={unreadCount > 0} />
-          </Link>
-          <Link href="/account"><NavItem icon={<User size={24} />} label="บัญชี" /></Link>
-        </div>
-      </div>
+      {/* ✅ ใช้ BottomNav Component แทนการ Hard code */}
+      <BottomNav />
 
     </div>
   );
 }
 
 // --- Helper Functions ---
+
+// 1. ปุ่ม Tab (เพิ่มใหม่)
+function TabButton({ label, isActive, onClick, count }: { label: string, isActive: boolean, onClick: () => void, count?: number }) {
+    return (
+      <button 
+        onClick={onClick}
+        className={`px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all flex items-center gap-2 ${
+          isActive 
+          ? 'bg-gray-900 text-white dark:bg-white dark:text-black shadow-md' 
+          : 'bg-gray-100 text-gray-500 dark:bg-zinc-800 dark:text-gray-400'
+        }`}
+      >
+        {label}
+        {count !== undefined && count > 0 && (
+          <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] ${isActive ? 'bg-red-500 text-white' : 'bg-red-500 text-white'}`}>
+            {count}
+          </span>
+        )}
+      </button>
+    );
+  }
+
 function getIcon(type: NotificationType) {
   switch (type) {
     case 'cancel_class': return <CalendarX size={24} />;
@@ -169,16 +191,4 @@ function getIconStyle(type: NotificationType) {
     case 'absence_risk': return 'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400';
     default: return 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400';
   }
-}
-
-function NavItem({ icon, label, active = false, hasBadge = false }: { icon: React.ReactNode, label: string, active?: boolean, hasBadge?: boolean }) {
-  return (
-    <div className={`flex flex-col items-center gap-1 cursor-pointer ${active ? 'text-indigo-600 dark:text-indigo-400' : 'text-gray-400 dark:text-zinc-500'}`}>
-      <div className="relative">
-        {icon}
-        {hasBadge && <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white dark:border-zinc-900"></span>}
-      </div>
-      <span className="text-[10px] font-medium">{label}</span>
-    </div>
-  );
 }
