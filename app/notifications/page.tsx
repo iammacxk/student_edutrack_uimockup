@@ -87,7 +87,7 @@ export default function NotificationsPage() {
               )}
 
               <div className="flex gap-4">
-                <div className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 ${getIconStyle(item.type)}`}>
+                <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${getIconStyle(item.type)}`}>
                   {getIcon(item.type)}
                 </div>
                 <div className="flex-1 pr-4">
@@ -114,7 +114,7 @@ export default function NotificationsPage() {
 
       {/* --- Popup Modal --- */}
       {selectedNotif && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center px-4">
+        <div className="fixed inset-0 z-60 flex items-center justify-center px-4">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-fade-in" onClick={closeModal}></div>
           <div className="bg-white dark:bg-zinc-900 w-full max-w-sm rounded-3xl p-6 relative z-10 shadow-2xl animate-slide-up">
             <button onClick={closeModal} className="absolute top-4 right-4 p-2 bg-gray-100 dark:bg-zinc-800 rounded-full hover:bg-gray-200 dark:hover:bg-zinc-700 transition">

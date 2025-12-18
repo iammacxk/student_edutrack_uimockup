@@ -2,21 +2,20 @@
 "use client";
 
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { useAuth } from './AuthContext'; // ✅ Import AuthContext เพื่อเช็ค Role
+import { useAuth } from './AuthContext';
 
 // --- Types ---
-// เพิ่ม Type ให้ครอบคลุมทุก Role
 export type NotificationType = 
   | 'cancel_class' 
   | 'school_holiday' 
   | 'attendance_reminder' 
   | 'entry_exit' 
   | 'absence_risk'
-  | 'grade_alert'    // เกรดออก
-  | 'payment'        // แจ้งชำระเงิน (ผู้ปกครอง)
-  | 'meeting'        // ประชุม (ครู/ผู้ปกครอง)
-  | 'duty'           // เวรประจำวัน (ครู)
-  | 'system';        // ประกาศระบบ
+  | 'grade_alert'
+  | 'payment'
+  | 'meeting'
+  | 'duty'
+  | 'system';
 
 export interface NotificationItem {
   id: number;
@@ -132,31 +131,39 @@ interface NotificationContextType {
 const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
 
 export function NotificationProvider({ children }: { children: ReactNode }) {
-  // เริ่มต้นเป็น Array ว่างก่อน แล้วค่อย Set ตาม Role
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
-  const { user } = useAuth(); // ✅ ดึงข้อมูล User เพื่อดู Role
+  const { user } = useAuth();
 
-  // ✅ Effect: เปลี่ยนชุดข้อมูล Notification ตาม Role ของ User
   useEffect(() => {
-    if (!user) {
-      setNotifications([]);
-      return;
-    }
+    // ✅ ใช้ setTimeout เพื่อแก้ปัญหา "setState synchronously"
+    // และจำลองการทำงานเหมือนเรียก API จริงๆ
+    const timer = setTimeout(() => {
+        if (!user) {
+            setNotifications([]);
+            return;
+        }
 
-    switch (user.role) {
-      case 'student':
-        setNotifications(studentNotifications);
-        break;
-      case 'teacher':
-        setNotifications(teacherNotifications);
-        break;
-      case 'parent':
-        setNotifications(parentNotifications);
-        break;
-      default:
-        setNotifications([]);
-    }
-  }, [user]); // รันใหม่เมื่อ User (Role) เปลี่ยน
+        let newNotifications: NotificationItem[] = [];
+        
+        switch (user.role) {
+            case 'student':
+                newNotifications = studentNotifications;
+                break;
+            case 'teacher':
+                newNotifications = teacherNotifications;
+                break;
+            case 'parent':
+                newNotifications = parentNotifications;
+                break;
+            default:
+                newNotifications = [];
+        }
+
+        setNotifications(newNotifications);
+    }, 0); // หน่วงเวลา 0ms ก็เพียงพอให้ JS ย้ายไปทำงานใน Next Tick
+
+    return () => clearTimeout(timer); // Cleanup
+  }, [user]);
 
   const markAsRead = (id: number) => {
     setNotifications(prev => prev.map(n => 
@@ -177,7 +184,6 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
   );
 }
 
-// Hook สำหรับเรียกใช้ในหน้าต่างๆ
 export function useNotification() {
   const context = useContext(NotificationContext);
   if (context === undefined) {
