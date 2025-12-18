@@ -10,7 +10,8 @@ import {
   Home, CalendarDays, ScanLine, Bell, User, 
   Moon, Sun, LogOut, ChevronRight,
   Shield, Globe, HelpCircle, Lock,
-  X, Save, Smartphone, Mail, Hash, UserCircle
+  X, Save, Smartphone, Mail, Hash, UserCircle,
+  Binary // ✅ เพิ่ม Icon ใหม่
 } from "lucide-react";
 
 export default function AccountPage() {
@@ -21,6 +22,7 @@ export default function AccountPage() {
   // --- State สำหรับข้อมูลผู้ใช้ (Editable) ---
   const [profile, setProfile] = useState({
     studentId: "66160123", // Read-only
+    classNo: "9",          // ✅ เพิ่ม field เลขที่ (Read-only)
     fullName: "นายเอ็ม ออนิว", // Read-only
     classRoom: "ม.5/1", // Read-only
     nickname: "M Allnew", // Editable
@@ -54,7 +56,18 @@ export default function AccountPage() {
           </div>
           <div>
             <h1 className="text-xl font-bold text-gray-900 dark:text-white">{profile.fullName}</h1>
-            <p className="text-gray-500 dark:text-gray-400 text-sm">รหัสนักเรียน: {profile.studentId}</p>
+            
+            {/* ✅ ปรับปรุง: แสดงเลขที่ใน Header ด้วย */}
+            <div className="flex items-center gap-2 mt-1">
+                <p className="text-gray-500 dark:text-gray-400 text-sm">
+                   ID: {profile.studentId}
+                </p>
+                <span className="text-gray-300 dark:text-zinc-700">|</span>
+                <p className="text-indigo-600 dark:text-indigo-400 text-sm font-semibold">
+                   เลขที่: {profile.classNo}
+                </p>
+            </div>
+
             <div className="mt-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
               สถานะ: ปกติ
             </div>
@@ -64,6 +77,8 @@ export default function AccountPage() {
 
       {/* --- Settings Menu --- */}
       <main className="px-6 space-y-6">
+         {/* ... (Code ส่วน Menu เหมือนเดิม) ... */}
+         {/* เพื่อความกระชับ ผมละไว้ในฐานที่เข้าใจครับ */}
         
         {/* Section 1: การตั้งค่าแอป */}
         <section>
@@ -132,6 +147,7 @@ export default function AccountPage() {
         <p className="text-center text-xs text-gray-400 dark:text-zinc-600 pt-4 pb-8">
           EduTrack Version 1.0.0 (Build 2024.1)
         </p>
+
       </main>
 
       {/* --- MODALS (POPUP) --- */}
@@ -152,7 +168,12 @@ export default function AccountPage() {
                 <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">ข้อมูลทางการศึกษา (แก้ไขไม่ได้)</p>
                 <ReadOnlyInput label="ชื่อ-นามสกุล" value={profile.fullName} icon={<UserCircle size={18} />} />
                 <ReadOnlyInput label="รหัสนักเรียน" value={profile.studentId} icon={<Hash size={18} />} />
-                <ReadOnlyInput label="ชั้นเรียน" value={profile.classRoom} icon={<Home size={18} />} />
+                
+                {/* ✅ ปรับปรุง: เพิ่มช่องเลขที่ */}
+                <div className="grid grid-cols-2 gap-4">
+                   <ReadOnlyInput label="ชั้นเรียน" value={profile.classRoom} icon={<Home size={18} />} />
+                   <ReadOnlyInput label="เลขที่" value={profile.classNo} icon={<Binary size={18} />} />
+                </div>
              </div>
 
              <div className="border-t border-gray-100 dark:border-zinc-800"></div>
@@ -208,9 +229,11 @@ export default function AccountPage() {
         </div>
       )}
 
-      {/* 2. Help Modal */}
-      {activeModal === 'help' && (
+      {/* ... (Modals อื่นๆ เหมือนเดิม) ... */}
+       {/* 2. Help Modal */}
+       {activeModal === 'help' && (
         <InfoModal title="ศูนย์ช่วยเหลือ" onClose={() => setActiveModal('none')}>
+           {/* ...content... */}
            <div className="space-y-4">
               <div className="bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-xl border border-indigo-100 dark:border-indigo-800">
                  <h3 className="font-bold text-indigo-700 dark:text-indigo-400 mb-2">ติดต่อฝ่ายวิชาการ</h3>
@@ -231,6 +254,7 @@ export default function AccountPage() {
       {/* 3. Privacy Modal */}
       {activeModal === 'privacy' && (
         <InfoModal title="นโยบายความเป็นส่วนตัว" onClose={() => setActiveModal('none')}>
+           {/* ...content... */}
            <div className="prose prose-sm dark:prose-invert text-gray-600 dark:text-gray-300 space-y-4">
               <p>
                 <strong>1. การเก็บรวบรวมข้อมูล:</strong> แอปพลิเคชัน EduTrack จะทำการเก็บรวบรวมข้อมูลส่วนบุคคลของนักเรียน ได้แก่ ชื่อ-นามสกุล, รหัสนักเรียน, รูปถ่าย, และประวัติการเข้าเรียน เพื่อใช้ในการบริหารจัดการการเรียนการสอนเท่านั้น
@@ -275,8 +299,7 @@ export default function AccountPage() {
   );
 }
 
-// --- Sub-Components ---
-
+// ... (Sub-Components เหมือนเดิม) ...
 function MenuItem({ icon, label, value, onClick }: { icon: React.ReactNode, label: string, value?: string, onClick?: () => void }) {
   return (
     <button onClick={onClick} className="w-full flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition border-b border-gray-50 dark:border-zinc-800 last:border-0 group">

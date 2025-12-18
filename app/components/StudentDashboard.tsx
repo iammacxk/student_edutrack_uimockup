@@ -20,7 +20,17 @@ export default function StudentDashboard() {
           <div>
             <p className="text-gray-500 dark:text-gray-400 text-sm mb-1">สวัสดีตอนเช้า 👋,</p>
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white">นายเอ็ม ออนิว</h1>
-            <p className="text-gray-400 text-xs mt-1">รหัสนักเรียน: 66160xxx</p>
+            
+            {/* ✅ ปรับปรุง: เพิ่มเลขที่ต่อท้ายรหัสนักเรียน */}
+            <div className="flex items-center gap-2 mt-1">
+                <p className="text-gray-400 text-xs bg-gray-100 dark:bg-zinc-800 px-2 py-0.5 rounded-md">
+                    รหัส: 66160xxx
+                </p>
+                <p className="text-indigo-500 dark:text-indigo-400 text-xs font-bold bg-indigo-50 dark:bg-indigo-900/20 px-2 py-0.5 rounded-md">
+                    เลขที่: 9
+                </p>
+            </div>
+
           </div>
           <div className="w-12 h-12 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold text-lg border-2 border-white dark:border-zinc-700 shadow-sm">
             M
@@ -28,9 +38,12 @@ export default function StudentDashboard() {
         </div>
       </header>
 
-      {/* --- เนื้อหาหลัก --- */}
+      {/* --- เนื้อหาหลัก (ส่วนอื่นๆ เหมือนเดิม) --- */}
       <main className="px-6 py-6 space-y-6 overflow-y-auto">
-        {/* 1. สถิติการเรียน */}
+         {/* ... (Code ส่วนอื่นๆ คงเดิม) ... */}
+         {/* เพื่อความกระชับ ผมละไว้ในฐานที่เข้าใจครับ สามารถใช้ Code เดิมต่อจากนี้ได้เลย */}
+         
+         {/* 1. สถิติการเรียน */}
         <section>
           <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">สถิติการเรียนในเดือนนี้</h2>
           <div className="grid grid-cols-3 gap-4">
@@ -105,7 +118,7 @@ export default function StudentDashboard() {
   );
 }
 
-// --- Sub-Components ---
+// ... (Sub-Components เหมือนเดิม) ...
 function StatCard({ label, value, color }: { label: string, value: string, color: string }) {
   return (
     <div className={`rounded-2xl p-4 flex flex-col items-center justify-center gap-1 ${color}`}>
