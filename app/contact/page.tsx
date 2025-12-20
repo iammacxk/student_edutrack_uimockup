@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef } from 'react';
 import { 
   Phone, MessageCircle, Mail, Clock, 
-  MapPin, FileText, Send, Calendar as CalendarIcon,
+  FileText, Send, Calendar as CalendarIcon,
   ChevronRight, ChevronLeft, ChevronDown, 
-  AlertCircle, CheckCircle2, Paperclip, X
+  CheckCircle2, Paperclip, X
 } from 'lucide-react';
 
 // --- Mock Data ---
@@ -106,7 +106,7 @@ export default function ContactPage() {
           <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-bl-full -mr-8 -mt-8"></div>
           
           <div className="flex items-start gap-4 relative z-10">
-            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 p-1 shadow-md border-2 border-white dark:border-zinc-700 flex items-center justify-center text-white text-3xl font-bold">
+            <div className="w-20 h-20 rounded-full bg-linear-to-br from-indigo-500 to-purple-600 p-1 shadow-md border-2 border-white dark:border-zinc-700 flex items-center justify-center text-white text-3xl font-bold">
               {teacherInfo.name.charAt(3)}
             </div>
             <div className="flex-1">
@@ -114,7 +114,7 @@ export default function ContactPage() {
               <p className="text-sm text-indigo-600 dark:text-indigo-400 font-medium">{teacherInfo.role}</p>
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{teacherInfo.subject}</p>
               
-              <div className="flex items-center gap-1.5 mt-3 text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-zinc-800/50 p-2 rounded-lg inline-flex">
+              <div className="items-center gap-1.5 mt-3 text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-zinc-800/50 p-2 rounded-lg inline-flex">
                 <Clock size={12} className="text-indigo-500" />
                 <span>สะดวก: {teacherInfo.availableTime}</span>
               </div>
@@ -169,7 +169,7 @@ export default function ContactPage() {
               <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
                 <h3 className="font-bold text-gray-800 dark:text-white">ฝากข้อความถึงครู</h3>
                 <textarea 
-                  className="w-full bg-gray-50 dark:bg-zinc-800 rounded-xl p-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white min-h-[120px]"
+                  className="w-full bg-gray-50 dark:bg-zinc-800 rounded-xl p-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white min-h-30"
                   placeholder="พิมพ์ข้อความที่ต้องการฝากถึงครู..."
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
@@ -401,7 +401,7 @@ function DatePickerModal({ onClose, onConfirm }: {
   const years = [today.getFullYear(), today.getFullYear() + 1, today.getFullYear() + 2];
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
       <div className="bg-white dark:bg-zinc-900 rounded-3xl w-full max-w-sm shadow-2xl border border-gray-100 dark:border-zinc-800 overflow-hidden scale-100 animate-in zoom-in-95 duration-200">
         
         {/* Modal Header */}
@@ -421,7 +421,7 @@ function DatePickerModal({ onClose, onConfirm }: {
         </div>
 
         {/* Modal Body */}
-        <div className="p-4 h-[320px] overflow-y-auto">
+        <div className="p-4 h-80 overflow-y-auto">
           
           {/* Calendar View */}
           {view === 'calendar' && (

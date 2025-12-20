@@ -1,4 +1,3 @@
-// app/context/NotificationContext.tsx
 "use client";
 
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
@@ -12,7 +11,7 @@ export type NotificationType =
   | 'entry_exit' 
   | 'absence_risk'
   | 'grade_alert'
-  | 'payment'
+  | 'payment' // ✅ (1) เพิ่ม Type จ่ายเงิน
   | 'meeting'
   | 'duty'
   | 'system';
@@ -25,6 +24,8 @@ export interface NotificationItem {
   fullDetail?: string;
   time: string;
   isRead: boolean;
+  paymentAmount?: number; // ✅ (2) เพิ่ม Field ยอดเงิน
+  dueDate?: string;       // ✅ (3) เพิ่มกำหนดชำระ
 }
 
 // --- 1. Mock Data: สำหรับนักเรียน 👨‍🎓 ---
@@ -101,10 +102,12 @@ const parentNotifications: NotificationItem[] = [
   },
   {
     id: 302,
-    type: 'payment',
+    type: 'payment', // ✅ แจ้งเตือนจ่ายเงิน
     title: "แจ้งชำระค่าบำรุงการศึกษา",
     message: "บิลค่าเทอม 2/2566 ออกแล้ว กรุณาชำระภายในวันที่ 28 ก.พ.",
     fullDetail: "แจ้งผู้ปกครอง, ใบแจ้งหนี้ค่าบำรุงการศึกษา ภาคเรียนที่ 2/2566 ของน้องเอ็ม ได้ออกแล้ว ยอดรวม 12,500 บาท สามารถสแกน QR Code ชำระผ่านแอปธนาคารได้ทันที หรือชำระที่ห้องการเงิน",
+    paymentAmount: 12500, // ✅ ยอดเงิน
+    dueDate: "28 กุมภาพันธ์ 2567", // ✅ วันครบกำหนด
     time: "เมื่อวาน",
     isRead: false,
   },
@@ -135,8 +138,6 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
 
   useEffect(() => {
-    // ✅ ใช้ setTimeout เพื่อแก้ปัญหา "setState synchronously"
-    // และจำลองการทำงานเหมือนเรียก API จริงๆ
     const timer = setTimeout(() => {
         if (!user) {
             setNotifications([]);
@@ -160,9 +161,9 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
         }
 
         setNotifications(newNotifications);
-    }, 0); // หน่วงเวลา 0ms ก็เพียงพอให้ JS ย้ายไปทำงานใน Next Tick
+    }, 0); 
 
-    return () => clearTimeout(timer); // Cleanup
+    return () => clearTimeout(timer); 
   }, [user]);
 
   const markAsRead = (id: number) => {

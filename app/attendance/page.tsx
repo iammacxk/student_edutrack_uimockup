@@ -182,7 +182,7 @@ export default function AttendancePage() {
           
           {/* Trigger Custom Modal */}
           <button 
-            className="relative group cursor-pointer px-4 py-2 rounded-xl hover:bg-gray-50 dark:hover:bg-zinc-700/50 transition flex flex-col items-center justify-center min-w-[160px]"
+            className="relative group cursor-pointer px-4 py-2 rounded-xl hover:bg-gray-50 dark:hover:bg-zinc-700/50 transition flex flex-col items-center justify-center min-w-40"
             onClick={() => setIsDatePickerOpen(true)}
           >
              <div className="flex items-center gap-2">
@@ -372,12 +372,10 @@ function FullDatePickerModal({ initialMonth, initialYear, initialDay, onClose, o
   for (let i = 0; i < firstDayOfWeek; i++) days.push(null);
   for (let i = 1; i <= daysInMonth; i++) days.push(i);
 
-  // Format Header Date
-  const headerDateString = `${selectedDay} ${monthsShortTh[selectedMonth]} ${selectedYear + 543}`;
 
   return (
     // ✅ z-[100] เพื่อให้ทับ BottomNav (ปกติ z-50)
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
       <div className="bg-white dark:bg-zinc-900 rounded-3xl w-full max-w-sm shadow-2xl border border-gray-100 dark:border-zinc-800 overflow-hidden scale-100 animate-in zoom-in-95 duration-200">
         
         {/* Modal Header */}
@@ -404,7 +402,7 @@ function FullDatePickerModal({ initialMonth, initialYear, initialDay, onClose, o
         </div>
 
         {/* Modal Body */}
-        <div className="p-4 h-[340px] overflow-y-auto">
+        <div className="p-4 h-85 overflow-y-auto">
           
           {/* View 1: Calendar Grid (Select Day) */}
           {view === 'calendar' && (
