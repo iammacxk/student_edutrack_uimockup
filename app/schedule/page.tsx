@@ -116,7 +116,7 @@ function TeacherScheduleView() {
       nickname: "ชาย",
       status: "risk",
       risk: true,
-      riskDetail: "ขดเรียน 6 วัน",
+      riskDetail: "ขาดเรียน 6 วัน",
     },
     {
       no: 4,

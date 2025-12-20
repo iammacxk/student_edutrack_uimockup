@@ -1,4 +1,3 @@
-// components/TeacherDashboard.tsx
 "use client";
 
 import React from "react";
@@ -10,6 +9,7 @@ import {
   ClipboardList,
   UserCheck,
   UserX,
+  MapPin, // ✅ เพิ่มไอคอนสำหรับลิงก์ Tracking
 } from "lucide-react";
 
 export default function TeacherDashboard() {
@@ -97,32 +97,77 @@ export default function TeacherDashboard() {
           </div>
         </section>
 
-        {/* 3. แจ้งเตือนกลุ่มเสี่ยง */}
+        {/* 3. แจ้งเตือนกลุ่มเสี่ยง (แก้ไขแล้ว) */}
         <section>
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
               ต้องติดตามด่วน ⚠️
             </h2>
+            {/* ✅ ลิงก์ไปหน้า Tracking */}
             <Link
-              href="/students"
-              className="text-xs text-indigo-600 dark:text-indigo-400"
+              href="/tracking"
+              className="text-xs text-indigo-600 dark:text-indigo-400 flex items-center gap-1 hover:underline"
             >
-              ดูทั้งหมด
+              ดูทั้งหมด <ChevronRight size={14} />
             </Link>
           </div>
-          <div className="bg-white dark:bg-zinc-900 rounded-2xl p-4 shadow-sm border border-red-100 dark:border-red-900/30 space-y-4">
-            <div className="flex items-center gap-4">
-              <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-zinc-700"></div>
-              <div className="flex-1">
-                <h4 className="font-semibold text-gray-900 dark:text-white">
-                  นายสมชาย มาสาย
-                </h4>
-                <p className="text-xs text-red-500">ขาดเรียนติดต่อกัน 3 วัน</p>
+          
+          <div className="space-y-3">
+            {/* Student Card 1 */}
+            <Link href="/tracking" className="block">
+              <div className="bg-white dark:bg-zinc-900 rounded-2xl p-4 shadow-sm border border-red-100 dark:border-red-900/30 flex items-center gap-4 hover:shadow-md transition-shadow active:scale-[0.98]">
+                {/* ✅ รูปโปรไฟล์จริง (Avatar) */}
+                <div className="relative">
+                  <img 
+                    src="https://api.dicebear.com/7.x/avataaars/svg?seed=somchai" 
+                    alt="สมชาย" 
+                    className="w-12 h-12 rounded-full bg-gray-100 border-2 border-white shadow-sm"
+                  />
+                  <span className="absolute -bottom-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center border-2 border-white text-[10px] text-white font-bold">
+                    !
+                  </span>
+                </div>
+                
+                <div className="flex-1">
+                  <h4 className="font-bold text-gray-900 dark:text-white text-sm">
+                    นายสมชาย มาสาย
+                  </h4>
+                  <p className="text-xs text-red-500 mt-0.5 flex items-center gap-1">
+                    ขาดเรียนติดต่อกัน 3 วัน
+                  </p>
+                </div>
+                
+                <button className="px-3 py-1.5 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-xs rounded-lg font-bold hover:bg-red-100 transition">
+                  โทรตาม
+                </button>
               </div>
-              <button className="px-3 py-1.5 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-xs rounded-lg font-medium">
-                โทรตาม
-              </button>
-            </div>
+            </Link>
+
+            {/* Student Card 2 (ตัวอย่างเพิ่มอีกคน) */}
+            <Link href="/tracking" className="block">
+              <div className="bg-white dark:bg-zinc-900 rounded-2xl p-4 shadow-sm border border-orange-100 dark:border-orange-900/30 flex items-center gap-4 hover:shadow-md transition-shadow active:scale-[0.98]">
+                <div className="relative">
+                  <img 
+                    src="https://api.dicebear.com/7.x/avataaars/svg?seed=due" 
+                    alt="ดื้อ" 
+                    className="w-12 h-12 rounded-full bg-gray-100 border-2 border-white shadow-sm"
+                  />
+                </div>
+                
+                <div className="flex-1">
+                  <h4 className="font-bold text-gray-900 dark:text-white text-sm">
+                    นายดื้อ ดึงดัน
+                  </h4>
+                  <p className="text-xs text-orange-500 mt-0.5">
+                    มาสายเกิน 5 ครั้ง/เดือน
+                  </p>
+                </div>
+                
+                <button className="w-8 h-8 rounded-full bg-gray-100 dark:bg-zinc-800 flex items-center justify-center text-gray-400">
+                  <ChevronRight size={16} />
+                </button>
+              </div>
+            </Link>
           </div>
         </section>
       </main>
@@ -133,7 +178,7 @@ export default function TeacherDashboard() {
 interface StatCardProps {
   label: string;
   value: string;
-  icon: React.ReactNode; // ใช้ ReactNode สำหรับ icon ที่เป็น Component
+  icon: React.ReactNode; 
   color: string;
 }
 
