@@ -16,7 +16,10 @@ export default function BottomNav() {
   const { unreadCount } = useNotification();
   const pathname = usePathname();
 
-  // ถ้าไม่มี user (ยังไม่ login) ไม่ต้องโชว์
+  // ✅ 1. เพิ่มเงื่อนไข: ถ้าอยู่ที่หน้า Login ("/") ให้ซ่อนทันที ไม่ต้องรอเช็ค User
+  if (pathname === "/") return null;
+
+  // 2. ถ้าไม่มี user (ยังไม่ login) ก็ซ่อน
   if (!user) return null;
 
   // ฟังก์ชันเช็คว่าหน้าไหน Active
@@ -33,12 +36,11 @@ export default function BottomNav() {
     { href: "/account", icon: <User size={24} />, label: "บัญชี" },
   ];
 
-  // 2. เมนูครู (✅ ปรับปุ่มกลางเป็นติดตามนักเรียน)
+  // 2. เมนูครู
   const teacherMenu = [
     { href: "/dashboard", icon: <Home size={24} />, label: "ภาพรวม" },
     { href: "/schedule", icon: <Users size={24} />, label: "นร.ประจำชั้น" }, 
-    // เปลี่ยนจาก Generate QR -> Tracking
-    { href: "/tracking", icon: <MapPin size={28} />, label: "", isScan: true }, 
+    { href: "/tracking", icon: <MapPin size={28} />, label: "", isScan: true }, // ปุ่มใหญ่: ติดตาม นร.
     { href: "/notifications", icon: <Megaphone size={24} />, label: "ประกาศ" },
     { href: "/account", icon: <User size={24} />, label: "บัญชี" },
   ];
@@ -67,7 +69,6 @@ export default function BottomNav() {
               <div key={index} className="relative -top-8">
                 <Link href={item.href}>
                   <div className="bg-indigo-600 dark:bg-indigo-500 p-4 rounded-full shadow-lg shadow-indigo-300 dark:shadow-indigo-900 ring-4 ring-white dark:ring-zinc-900 cursor-pointer transform transition active:scale-95">
-                    {/* ใช้ cloneElement เพื่อบังคับสีไอคอนให้เป็นสีขาว */}
                     {React.cloneElement(item.icon as React.ReactElement<{ color: string }>, { color: "white" })}
                   </div>
                 </Link>
