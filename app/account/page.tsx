@@ -75,7 +75,7 @@ export default function AccountPage() {
                 nickname: "Mom",
                 phone: "081-555-6666",
                 email: "parent@gmail.com",
-                childName: "นายทินภัทร (ม.5/1)"
+                childName: "นายเอ็ม (ม.5/1)"
             };
         }
 

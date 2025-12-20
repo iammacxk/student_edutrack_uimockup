@@ -8,7 +8,7 @@ import { useNotification } from "../context/NotificationContext";
 import { 
   Home, CalendarDays, ScanLine, Bell, User, 
   Users, QrCode, Megaphone, 
-  CalendarCheck, GraduationCap, CreditCard
+  CalendarCheck, MessageCircle
 } from "lucide-react";
 import React from "react";
 
@@ -29,7 +29,7 @@ export default function BottomNav() {
   const studentMenu = [
     { href: "/dashboard", icon: <Home size={24} />, label: "ภาพรวม" },
     { href: "/schedule", icon: <CalendarDays size={24} />, label: "ตารางเรียน" },
-    { href: "/scan", icon: <ScanLine size={28} />, label: "", isScan: true }, // ปุ่มใหญ่ตรงกลาง
+    { href: "/scan", icon: <ScanLine size={28} />, label: "", isScan: true }, // ปุ่มใหญ่: สแกน
     { href: "/notifications", icon: <Bell size={24} />, label: "แจ้งเตือน", badge: unreadCount },
     { href: "/account", icon: <User size={24} />, label: "บัญชี" },
   ];
@@ -38,18 +38,18 @@ export default function BottomNav() {
   const teacherMenu = [
     { href: "/dashboard", icon: <Home size={24} />, label: "ภาพรวม" },
     { href: "/schedule", icon: <Users size={24} />, label: "นร.ประจำชั้น" }, 
-    { href: "/generate-qr", icon: <QrCode size={28} />, label: "", isScan: true }, // ปุ่มใหญ่ (Generate QR)
+    { href: "/generate-qr", icon: <QrCode size={28} />, label: "", isScan: true }, // ปุ่มใหญ่: สร้าง QR
     { href: "/notifications", icon: <Megaphone size={24} />, label: "ประกาศ" },
     { href: "/account", icon: <User size={24} />, label: "บัญชี" },
   ];
 
-  // 3. เมนูผู้ปกครอง
+  // 3. เมนูผู้ปกครอง 
   const parentMenu = [
     { href: "/dashboard", icon: <Home size={24} />, label: "ภาพรวม" },
     { href: "/attendance", icon: <CalendarCheck size={24} />, label: "การมาเรียน" }, 
-    { href: "/academic", icon: <GraduationCap size={28} />, label: "", isScan: true }, 
-    { href: "/finance", icon: <CreditCard size={24} />, label: "ธุรกรรม" },
-    { href: "/account", icon: <User size={24} />, label: "ติดต่อ/บัญชี" },
+    { href: "/contact", icon: <MessageCircle size={28} />, label: "", isScan: true }, // ปุ่มใหญ่: ติดต่อครู
+    { href: "/notifications", icon: <Bell size={24} />, label: "แจ้งเตือน", badge: unreadCount },
+    { href: "/account", icon: <User size={24} />, label: "บัญชี" },
   ];
 
   // เลือกเมนูตาม Role
@@ -62,12 +62,12 @@ export default function BottomNav() {
       <div className="flex justify-between items-center relative">
         {currentMenu.map((item, index) => {
           if (item.isScan) {
-            // ปุ่มใหญ่ตรงกลาง (Scan / Gen QR / Academic)
+            // ปุ่มใหญ่ตรงกลาง (Scan / Gen QR / Contact)
             return (
               <div key={index} className="relative -top-8">
                 <Link href={item.href}>
                   <div className="bg-indigo-600 dark:bg-indigo-500 p-4 rounded-full shadow-lg shadow-indigo-300 dark:shadow-indigo-900 ring-4 ring-white dark:ring-zinc-900 cursor-pointer transform transition active:scale-95">
-                    {/* ✅ แก้ไขตรงนี้: เพิ่ม <any> เพื่อบอก TS ว่ารับ Props อะไรก็ได้ */}
+                    {/* ใช้ cloneElement เพื่อบังคับสีไอคอนให้เป็นสีขาว */}
                     {React.cloneElement(item.icon as React.ReactElement<{ color: string }>, { color: "white" })}
                   </div>
                 </Link>
