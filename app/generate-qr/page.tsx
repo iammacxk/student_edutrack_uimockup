@@ -112,7 +112,7 @@ export default function GenerateQRPage() {
   }, [classes, getClassStatus]);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-zinc-950 text-gray-900 dark:text-white pb-24 transition-colors duration-300">
+    <div className="min-h-screen bg-gray-50 dark:bg-zinc-950 text-gray-900 dark:text-white pb-24 transition-colors duration-300 font-thonburi">
       
       {/* --- Header --- */}
       <header className="px-6 pt-12 pb-4 bg-white dark:bg-zinc-900 shadow-sm sticky top-0 z-10 transition-colors duration-300">

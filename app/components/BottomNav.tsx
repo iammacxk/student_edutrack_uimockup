@@ -1,3 +1,4 @@
+// app/components/BottomNav.tsx
 "use client";
 
 import Link from "next/link";
@@ -16,8 +17,8 @@ export default function BottomNav() {
   const { unreadCount } = useNotification();
   const pathname = usePathname();
 
-  // ✅ 1. เพิ่มเงื่อนไข: ถ้าอยู่ที่หน้า Login ("/") ให้ซ่อนทันที ไม่ต้องรอเช็ค User
-  if (pathname === "/") return null;
+  // ✅ 1. เพิ่มเงื่อนไข: ซ่อน BottomNav ถ้าอยู่ที่หน้า Login ("/") หรือหน้า Scan ("/scan")
+  if (pathname === "/" || pathname === "/scan") return null;
 
   // 2. ถ้าไม่มี user (ยังไม่ login) ก็ซ่อน
   if (!user) return null;
@@ -40,7 +41,7 @@ export default function BottomNav() {
   const teacherMenu = [
     { href: "/dashboard", icon: <Home size={24} />, label: "ภาพรวม" },
     { href: "/schedule", icon: <Users size={24} />, label: "นร.ประจำชั้น" }, 
-    { href: "/tracking", icon: <MapPin size={28} />, label: "", isScan: true }, // ปุ่มใหญ่: ติดตาม นร.
+    { href: "/tracking", icon: <MapPin size={28} />, label: "", isScan: true }, // ปุ่มใหญ่: สร้าง QR
     { href: "/notifications", icon: <Megaphone size={24} />, label: "ประกาศ" },
     { href: "/account", icon: <User size={24} />, label: "บัญชี" },
   ];
@@ -60,7 +61,7 @@ export default function BottomNav() {
   if (user.role === 'parent') currentMenu = parentMenu;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white dark:bg-zinc-900 border-t border-gray-100 dark:border-zinc-800 px-6 py-4 rounded-t-3xl shadow-[0_-5px_20px_rgba(0,0,0,0.03)] z-50 transition-colors duration-300">
+    <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white dark:bg-zinc-900 border-t border-gray-100 dark:border-zinc-800 px-6 py-4 rounded-t-3xl shadow-[0_-5px_20px_rgba(0,0,0,0.03)] z-50 transition-colors duration-300 font-thonburi">
       <div className="flex justify-between items-center relative">
         {currentMenu.map((item, index) => {
           if (item.isScan) {
@@ -69,6 +70,7 @@ export default function BottomNav() {
               <div key={index} className="relative -top-8">
                 <Link href={item.href}>
                   <div className="bg-indigo-600 dark:bg-indigo-500 p-4 rounded-full shadow-lg shadow-indigo-300 dark:shadow-indigo-900 ring-4 ring-white dark:ring-zinc-900 cursor-pointer transform transition active:scale-95">
+                    {/* ใช้ cloneElement เพื่อบังคับสีไอคอนให้เป็นสีขาว */}
                     {React.cloneElement(item.icon as React.ReactElement<{ color: string }>, { color: "white" })}
                   </div>
                 </Link>

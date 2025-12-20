@@ -8,6 +8,15 @@
 /* --- แก้ไข Error: Cannot apply unknown utility class ---
   ใน v4 เราเปลี่ยนมาใช้ CSS Variables แทน @apply เพื่อความชัวร์และประสิทธิภาพที่ดีกว่า 
 */
+
+@font-face {
+  font-family: 'ThonburiBold';
+  src: url('/fonts/ThonburiBold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
 body {
   background-color: var(--color-gray-100);
   color: var(--color-gray-900);

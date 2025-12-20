@@ -1,4 +1,3 @@
-// app/page.tsx
 "use client";
 
 import React, { useState } from "react";
@@ -34,7 +33,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-indigo-500 to-purple-600 flex flex-col items-center justify-center p-6 text-white">
+    <div className="min-h-screen bg-linear-to-br from-indigo-500 to-purple-600 flex flex-col items-center justify-center p-6 text-white font-thonburi">
       
       {/* Logo & Branding */}
       <div className="flex flex-col items-center mb-8 animate-slide-up">
@@ -62,7 +61,7 @@ export default function LoginPage() {
                 placeholder="Username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition"
+                className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition font-thonburi"
                 required
               />
             </div>
@@ -78,7 +77,7 @@ export default function LoginPage() {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-12 pr-12 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition"
+                className="w-full pl-12 pr-12 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition font-thonburi"
                 required
               />
               
@@ -102,7 +101,7 @@ export default function LoginPage() {
           {/* Login Button */}
           <button
             type="submit"
-            className="w-full bg-indigo-600 text-white py-3.5 rounded-xl font-bold text-lg hover:bg-indigo-700 active:scale-95 transition flex items-center justify-center gap-2 shadow-lg shadow-indigo-200 mt-4"
+            className="w-full bg-indigo-600 text-white py-3.5 rounded-xl font-bold text-lg hover:bg-indigo-700 active:scale-95 transition flex items-center justify-center gap-2 shadow-lg shadow-indigo-200 mt-4 font-thonburi"
           >
             เข้าสู่ระบบ <ArrowRight size={20} />
           </button>
@@ -113,7 +112,7 @@ export default function LoginPage() {
         </div>
 
         {/* Hint Box: สำหรับช่วยจำตอนทดสอบระบบ (ลบออกได้เมื่อใช้งานจริง) */}
-        <div className="mt-6 p-3 bg-gray-50 rounded-xl border border-gray-100 text-[10px] text-gray-500 text-center">
+        <div className="mt-6 p-3 bg-gray-50 rounded-xl border border-gray-100 text-[10px] text-gray-500 text-center font-thonburi">
             <p className="font-semibold mb-1">🔑 บัญชีทดสอบแต่ละหน้าที่ (Demo Users in each roles)</p>
             <div className="grid grid-cols-3 gap-2">
                 <div>
@@ -134,7 +133,7 @@ export default function LoginPage() {
 
       </div>
       
-      <p className="mt-8 text-xs text-white/50">© 2025 Student Tracking System. All rights reserved.</p>
+      <p className="mt-8 text-xs text-white/50 font-thonburi">© 2025 Student Tracking System. All rights reserved.</p>
     </div>
   );
 }

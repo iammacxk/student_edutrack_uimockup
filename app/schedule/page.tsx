@@ -149,7 +149,7 @@ function TeacherScheduleView() {
   });
 
   return (
-    <div className="flex flex-col h-full min-h-screen bg-[#F8F9FA] dark:bg-zinc-950 transition-colors duration-300 pb-24">
+    <div className="flex flex-col h-full min-h-screen bg-[#F8F9FA] dark:bg-zinc-950 transition-colors duration-300 pb-24 font-thonburi">
       {/* --- Header Teacher --- */}
       <header className="bg-white dark:bg-zinc-900 px-6 pt-12 pb-4 shadow-sm sticky top-0 z-20">
         <div className="flex items-center justify-between mb-4">
@@ -492,7 +492,7 @@ function StudentScheduleView() {
   const currentSchedule = fullWeeklySchedule["Wednesday"]; // Mock ไว้ที่วันพุธ
 
   return (
-    <div className="flex flex-col h-full min-h-screen bg-[#F8F9FA] dark:bg-zinc-950 transition-colors duration-300 pb-24">
+    <div className="flex flex-col h-full min-h-screen bg-[#F8F9FA] dark:bg-zinc-950 transition-colors duration-300 pb-24 font-thonburi">
       {/* Header Student */}
       <header className="bg-white dark:bg-zinc-900 px-6 pt-12 pb-4 shadow-sm sticky top-0 z-20">
         <div className="flex items-center justify-between mb-4">

@@ -93,7 +93,7 @@ export default function NotificationsPage() {
     : "";
 
   return (
-    <div className="flex flex-col h-full min-h-screen bg-[#F8F9FA] dark:bg-zinc-950 relative transition-colors duration-300 pb-24">
+    <div className="flex flex-col h-full min-h-screen bg-[#F8F9FA] dark:bg-zinc-950 relative transition-colors duration-300 pb-24 font-thonburi">
       
       {/* --- Header --- */}
       <div className="bg-white dark:bg-zinc-900 px-6 pt-12 pb-4 shadow-sm sticky top-0 z-20 transition-colors duration-300">

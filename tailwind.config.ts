@@ -1,5 +1,3 @@
-// tailwind.config.ts
-
 import type { Config } from "tailwindcss";
 
 const config: Config = {
@@ -16,15 +14,16 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        thonburi: ["ThonburiBold", "sans-serif"],
+      },
       keyframes: {
-        // Animation 1: เส้นสแกน
         "scan-move": {
           "0%, 100%": { top: "0%", opacity: "0" },
           "10%": { opacity: "1" },
           "90%": { opacity: "1" },
           "50%": { top: "100%" },
         },
-        // Animation 2: การ์ดเลื่อนขึ้น
         "slide-up": {
           "0%": { transform: "translateY(100%)", opacity: "0" },
           "100%": { transform: "translateY(0)", opacity: "1" },

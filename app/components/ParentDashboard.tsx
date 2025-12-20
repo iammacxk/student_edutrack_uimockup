@@ -36,7 +36,7 @@ const homeworkData = [
 
 export default function ParentDashboard() {
   return (
-    <div className="flex flex-col h-full bg-[#F8F9FA] dark:bg-zinc-950 transition-colors duration-300 pb-24 min-h-screen">
+    <div className="flex flex-col h-full bg-[#F8F9FA] dark:bg-zinc-950 transition-colors duration-300 pb-24 min-h-screen font-thonburi">
       
       {/* --- Header ผู้ปกครอง --- */}
       <header className="px-6 pt-8 pb-6 bg-white dark:bg-zinc-900 rounded-b-3xl shadow-sm sticky top-0 z-10">

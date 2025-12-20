@@ -99,7 +99,7 @@ export default function AccountPage() {
   if (!user) return <div className="h-screen bg-white dark:bg-zinc-950"></div>;
 
   return (
-    <div className="flex flex-col h-full min-h-screen bg-[#F8F9FA] dark:bg-zinc-950 transition-colors duration-300 pb-24 relative">
+    <div className="flex flex-col h-full min-h-screen bg-[#F8F9FA] dark:bg-zinc-950 transition-colors duration-300 pb-24 relative font-thonburi">
       
       {/* --- Header Profile --- */}
       <div className="bg-white dark:bg-zinc-900 px-6 pt-12 pb-8 rounded-b-3xl shadow-sm mb-6 transition-colors duration-300">

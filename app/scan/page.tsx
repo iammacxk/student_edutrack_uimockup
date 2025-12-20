@@ -111,7 +111,7 @@ export default function ScanPage() {
   }, [mode]);
 
   return (
-    <div className="flex flex-col h-screen bg-black text-white relative overflow-hidden">
+    <div className="flex flex-col h-screen bg-black text-white relative overflow-hidden font-thonburi">
       
       {/* --- Header --- */}
       <div className="absolute top-0 left-0 right-0 z-30 px-6 pt-12 pb-4 flex justify-between items-center bg-linear-to-b from-black/80 to-transparent">

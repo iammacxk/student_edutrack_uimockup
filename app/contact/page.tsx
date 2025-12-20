@@ -89,7 +89,7 @@ export default function ContactPage() {
     : '';
 
   return (
-    <div className="min-h-screen bg-[#F8F9FA] dark:bg-zinc-950 pb-32 transition-colors duration-300 relative">
+    <div className="min-h-screen bg-[#F8F9FA] dark:bg-zinc-950 pb-32 transition-colors duration-300 relative font-thonburi">
       
       {/* --- Header --- */}
       <header className="sticky top-0 z-10 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border-b border-gray-100 dark:border-zinc-800 px-6 pt-10 pb-4 shadow-sm">
