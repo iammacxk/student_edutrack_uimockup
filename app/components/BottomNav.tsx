@@ -1,4 +1,3 @@
-// app/components/BottomNav.tsx
 "use client";
 
 import Link from "next/link";
@@ -7,8 +6,8 @@ import { useAuth } from "../context/AuthContext";
 import { useNotification } from "../context/NotificationContext";
 import { 
   Home, CalendarDays, ScanLine, Bell, User, 
-  Users, QrCode, Megaphone, 
-  CalendarCheck, MessageCircle
+  Users, Megaphone, 
+  CalendarCheck, MessageCircle, MapPin
 } from "lucide-react";
 import React from "react";
 
@@ -34,11 +33,12 @@ export default function BottomNav() {
     { href: "/account", icon: <User size={24} />, label: "บัญชี" },
   ];
 
-  // 2. เมนูครู
+  // 2. เมนูครู (✅ ปรับปุ่มกลางเป็นติดตามนักเรียน)
   const teacherMenu = [
     { href: "/dashboard", icon: <Home size={24} />, label: "ภาพรวม" },
     { href: "/schedule", icon: <Users size={24} />, label: "นร.ประจำชั้น" }, 
-    { href: "/generate-qr", icon: <QrCode size={28} />, label: "", isScan: true }, // ปุ่มใหญ่: สร้าง QR
+    // เปลี่ยนจาก Generate QR -> Tracking
+    { href: "/tracking", icon: <MapPin size={28} />, label: "", isScan: true }, 
     { href: "/notifications", icon: <Megaphone size={24} />, label: "ประกาศ" },
     { href: "/account", icon: <User size={24} />, label: "บัญชี" },
   ];
@@ -62,7 +62,7 @@ export default function BottomNav() {
       <div className="flex justify-between items-center relative">
         {currentMenu.map((item, index) => {
           if (item.isScan) {
-            // ปุ่มใหญ่ตรงกลาง (Scan / Gen QR / Contact)
+            // ปุ่มใหญ่ตรงกลาง
             return (
               <div key={index} className="relative -top-8">
                 <Link href={item.href}>

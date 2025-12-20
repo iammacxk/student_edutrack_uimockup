@@ -79,13 +79,13 @@ export default function TeacherDashboard() {
           <div className="bg-indigo-600 dark:bg-indigo-600 rounded-3xl p-6 text-white shadow-lg shadow-indigo-200 dark:shadow-none relative overflow-hidden">
             <div className="flex justify-between items-start mb-6">
               <span className="bg-white/20 px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm">
-                09:20 - 10:10
+                15:00 - 16:00
               </span>
               <Users className="w-5 h-5 text-indigo-100" />
             </div>
-            <h3 className="text-xl font-bold mb-1">ว30241 ชีววิทยา 1</h3>
+            <h3 className="text-xl font-bold mb-1">ว30102 วิทยาการคำนวณ</h3>
             <p className="text-indigo-100 text-sm mb-6 opacity-90">
-              ม.5/1 • ห้อง LAB Bio
+              ม.5/1 • ห้อง Computer Lab
             </p>
 
             <Link

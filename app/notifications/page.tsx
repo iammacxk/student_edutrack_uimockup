@@ -241,7 +241,7 @@ export default function NotificationsPage() {
                                 />
                             </div>
                             <p className="text-[10px] text-blue-100 text-center font-light">สแกนเพื่อชำระเงิน</p>
-                            <p className="text-[10px] text-white mt-1 font-medium">095-393-5451 (โรงเรียนมัธยมสาธิต)</p>
+                            <p className="text-[10px] text-white mt-1 font-medium">โรงเรียนมัธยมสาธุ</p>
                         </div>
 
                         {/* Supported Banks Logos */}
