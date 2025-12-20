@@ -13,7 +13,7 @@ const kanit = Kanit({
 });
 
 export const metadata: Metadata = {
-  title: "EduTrack - Student",
+  title: "Student Tracking System - Mobile UI Mockup",
   description: "Student Tracking System",
 };
 
