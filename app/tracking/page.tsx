@@ -9,9 +9,10 @@ import {
 } from "lucide-react";
 
 // --- Mock Data: รายชื่อนักเรียน (โซน ต.แสนสุข จ.ชลบุรี) ---
+// ข้อมูลดิบอาจจะยังไม่เรียงลำดับ (Unsorted)
 const studentsData = [
   {
-    id: "66001",
+    id: "6616003",
     name: "นายสมชาย มาสาย",
     nickname: "ชาย",
     class: "ม.5/1",
@@ -23,7 +24,7 @@ const studentsData = [
     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=somchai"
   },
   {
-    id: "66002",
+    id: "6616002",
     name: "นางสาวใจดี เรียนเก่ง",
     nickname: "ใจ",
     class: "ม.5/1",
@@ -35,7 +36,7 @@ const studentsData = [
     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=jaidee"
   },
   {
-    id: "66003",
+    id: "6616005",
     name: "นายดื้อ ดึงดัน",
     nickname: "ดื้อ",
     class: "ม.5/1",
@@ -47,7 +48,7 @@ const studentsData = [
     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=due"
   },
   {
-    id: "66004",
+    id: "6616001",
     name: "นายรักเรียน เพียรศึกษา",
     nickname: "รัก",
     class: "ม.5/1",
@@ -59,7 +60,7 @@ const studentsData = [
     image: "https://api.dicebear.com/7.x/avataaars/svg?seed=rak"
   },
   {
-    id: "66005",
+    id: "6616004",
     name: "นางสาวสายเสมอ รอเธอ",
     nickname: "สาย",
     class: "ม.5/1",
@@ -79,14 +80,16 @@ export default function TrackingPage() {
   // State สำหรับ Modal แผนที่
   const [selectedStudent, setSelectedStudent] = useState<typeof studentsData[0] | null>(null);
 
-  // Logic กรองข้อมูล
-  const filteredStudents = studentsData.filter(student => {
-    const matchesSearch = student.name.includes(searchTerm) || student.nickname.includes(searchTerm);
-    if (filter === 'critical') {
-      return matchesSearch && student.absences > 4;
-    }
-    return matchesSearch;
-  });
+  // Logic กรองข้อมูล และ ✅ เรียงลำดับตาม ID
+  const filteredStudents = studentsData
+    .filter(student => {
+      const matchesSearch = student.name.includes(searchTerm) || student.nickname.includes(searchTerm) || student.id.includes(searchTerm);
+      if (filter === 'critical') {
+        return matchesSearch && student.absences > 4;
+      }
+      return matchesSearch;
+    })
+    .sort((a, b) => a.id.localeCompare(b.id)); // ✅ เพิ่ม Sort ตรงนี้ (น้อยไปมาก)
 
   const criticalCount = studentsData.filter(s => s.absences > 4).length;
 
@@ -112,7 +115,7 @@ export default function TrackingPage() {
         <div className="relative mb-6">
           <input 
             type="text" 
-            placeholder="ค้นหาชื่อ หรือชื่อเล่น..." 
+            placeholder="ค้นหาชื่อ, ชื่อเล่น หรือรหัส..." 
             className="w-full bg-gray-100 dark:bg-zinc-800 rounded-xl py-3 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:text-white"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -144,7 +147,6 @@ export default function TrackingPage() {
           filteredStudents.map((student) => (
             <div 
               key={student.id}
-              // ✅ กดที่การ์ดแล้วเปิดแผนที่เลย
               onClick={() => setSelectedStudent(student)}
               className={`relative bg-white dark:bg-zinc-900 p-4 rounded-2xl border transition-all hover:shadow-md cursor-pointer active:scale-[0.98]
                 ${student.absences > 4 
@@ -177,7 +179,7 @@ export default function TrackingPage() {
                   </h3>
                   
                   <div className="flex items-center gap-3 mt-1 text-xs text-gray-500 dark:text-gray-400">
-                    <span className="flex items-center gap-1">
+                    <span className="flex items-center gap-1 font-mono bg-gray-100 dark:bg-zinc-800 px-1.5 py-0.5 rounded text-gray-600 dark:text-gray-300">
                       <User size={12} /> {student.id}
                     </span>
                     <span className={`font-bold ${student.absences > 4 ? 'text-red-500' : student.absences > 2 ? 'text-yellow-500' : 'text-green-500'}`}>
@@ -195,13 +197,12 @@ export default function TrackingPage() {
               <div className="grid grid-cols-2 gap-3 mt-4">
                 <a 
                   href={`tel:${student.phone}`}
-                  onClick={(e) => e.stopPropagation()} // กันไม่ให้เปิด Map Modal เมื่อกดปุ่มโทร
+                  onClick={(e) => e.stopPropagation()}
                   className="flex items-center justify-center gap-2 py-2 rounded-xl bg-gray-50 dark:bg-zinc-800 text-gray-600 dark:text-gray-300 text-xs font-bold hover:bg-gray-100 transition"
                 >
                   <Phone size={14} /> โทรหาผู้ปกครอง
                 </a>
                 <button 
-                  // ปุ่มนี้กดแล้วจะเปิด Modal แผนที่เหมือนกัน
                   className={`flex items-center justify-center gap-2 py-2 rounded-xl text-white text-xs font-bold transition shadow-sm
                     ${student.absences > 4 ? 'bg-indigo-600 hover:bg-indigo-700 shadow-indigo-200' : 'bg-blue-500 hover:bg-blue-600'}
                   `}
@@ -221,7 +222,6 @@ export default function TrackingPage() {
 
       {/* --- 🗺️ Map Modal (In-App Map) --- */}
       {selectedStudent && (
-        // ✅ ใช้ z-[100] เพื่อให้ทับ BottomNav (ปกติ z-50)
         <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center sm:p-4">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-fade-in" onClick={() => setSelectedStudent(null)}></div>
           
@@ -231,7 +231,7 @@ export default function TrackingPage() {
             <div className="p-4 flex items-center justify-between border-b border-gray-100 dark:border-zinc-800">
               <div>
                 <h3 className="font-bold text-lg text-gray-900 dark:text-white">แผนที่บ้านนักเรียน</h3>
-                <p className="text-xs text-gray-500">{selectedStudent.name}</p>
+                <p className="text-xs text-gray-500">{selectedStudent.name} (รหัส: {selectedStudent.id})</p>
               </div>
               <button 
                 onClick={() => setSelectedStudent(null)} 
@@ -243,7 +243,6 @@ export default function TrackingPage() {
 
             {/* Map Area (Embed Google Maps) */}
             <div className="flex-1 bg-gray-100 relative w-full h-full min-h-[300px]">
-              {/* iframe Google Maps Embed API */}
               <iframe
                 width="100%"
                 height="100%"
