@@ -242,7 +242,7 @@ export default function TrackingPage() {
             </div>
 
             {/* Map Area (Embed Google Maps) */}
-            <div className="flex-1 bg-gray-100 relative w-full h-full min-h-[300px]">
+            <div className="flex-1 bg-gray-100 relative w-full h-full min-h-75">
               <iframe
                 width="100%"
                 height="100%"

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import React from "react";
@@ -9,7 +10,6 @@ import {
   ClipboardList,
   UserCheck,
   UserX,
-  MapPin, // ✅ เพิ่มไอคอนสำหรับลิงก์ Tracking
 } from "lucide-react";
 
 export default function TeacherDashboard() {
@@ -116,7 +116,6 @@ export default function TeacherDashboard() {
             {/* Student Card 1 */}
             <Link href="/tracking" className="block">
               <div className="bg-white dark:bg-zinc-900 rounded-2xl p-4 shadow-sm border border-red-100 dark:border-red-900/30 flex items-center gap-4 hover:shadow-md transition-shadow active:scale-[0.98]">
-                {/* ✅ รูปโปรไฟล์จริง (Avatar) */}
                 <div className="relative">
                   <img 
                     src="https://api.dicebear.com/7.x/avataaars/svg?seed=somchai" 
