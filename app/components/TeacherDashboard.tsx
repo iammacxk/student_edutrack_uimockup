@@ -143,7 +143,7 @@ export default function TeacherDashboard() {
               </div>
             </Link>
 
-            {/* Student Card 2 (ตัวอย่างเพิ่มอีกคน) */}
+            {/* Student Card 2 */}
             <Link href="/tracking" className="block">
               <div className="bg-white dark:bg-zinc-900 rounded-2xl p-4 shadow-sm border border-orange-100 dark:border-orange-900/30 flex items-center gap-4 hover:shadow-md transition-shadow active:scale-[0.98]">
                 <div className="relative">
@@ -163,8 +163,8 @@ export default function TeacherDashboard() {
                   </p>
                 </div>
                 
-                <button className="w-8 h-8 rounded-full bg-gray-100 dark:bg-zinc-800 flex items-center justify-center text-gray-400">
-                  <ChevronRight size={16} />
+                <button className="px-3 py-1.5 bg-red-50 dark:bg-red-900/20 text-orange-500 dark:text-red-400 text-xs rounded-lg font-bold hover:bg-red-100 transition">
+                  โทรตาม
                 </button>
               </div>
             </Link>

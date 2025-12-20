@@ -222,7 +222,7 @@ export default function TrackingPage() {
 
       {/* --- 🗺️ Map Modal (In-App Map) --- */}
       {selectedStudent && (
-        <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center sm:p-4">
+        <div className="fixed inset-0 z-100 flex items-end sm:items-center justify-center sm:p-4">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-fade-in" onClick={() => setSelectedStudent(null)}></div>
           
           <div className="bg-white dark:bg-zinc-900 w-full sm:max-w-md h-[85vh] sm:h-auto sm:rounded-3xl rounded-t-3xl overflow-hidden relative z-10 shadow-2xl animate-slide-up flex flex-col">
