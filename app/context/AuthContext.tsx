@@ -52,7 +52,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     // Mockup ข้อมูลของแต่ละคน
     if (role === 'student') {
-      userData = { name: "นายทินภัทร (นักเรียน)", id: "66160xxx", role: 'student' };
+      userData = { name: "นายเอ็ม (นักเรียน)", id: "66160xxx", role: 'student' };
     } else if (role === 'teacher') {
       userData = { name: "ครูสมศรี (ครูที่ปรึกษา)", id: "T-001", role: 'teacher' };
     } else if (role === 'parent') {

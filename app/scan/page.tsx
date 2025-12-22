@@ -170,7 +170,7 @@ export default function ScanPage() {
               <div className="absolute top-0 left-0 w-full h-2 bg-linear-to-r from-indigo-500 to-purple-500"></div>
               
               <div className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold text-3xl mb-4 border-4 border-white shadow-sm mt-4">T</div>
-              <h2 className="text-xl font-bold text-gray-800">นายทินภัทร บูรณะบัญญัติ</h2>
+              <h2 className="text-xl font-bold text-gray-800">นายเอ็ม ออนิว</h2>
               <p className="text-gray-500 text-sm mb-6">มัธยมศึกษาปีที่ 5/1 • เลขที่ 14</p>
 
               {/* Real QR Code Component */}
